@@ -18,6 +18,6 @@ public class UInt32 {
      * \param aVal a signed long value that will be truncated to a 32 bit unsigned value
      */
     public void set(long aValue) {
-        mValue = aVal & 0xffffffff;
+        mValue = aValue & 0xffffffff;
     }
 }
