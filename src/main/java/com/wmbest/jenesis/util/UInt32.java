@@ -20,4 +20,9 @@ public class UInt32 {
     public void set(long aValue) {
         mValue = aValue & 0xffffffff;
     }
+
+    public long incr() {
+        set(mValue + 1);
+        return mValue;
+    }
 }
