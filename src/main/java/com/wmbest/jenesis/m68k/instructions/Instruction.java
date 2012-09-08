@@ -85,6 +85,12 @@ public abstract class Instruction {
         Instruction result = null;
 
         switch(opcode) {
+            case 0: switch(value  >> 8) {
+                case 6:
+                    result = new AddI();
+                    break;
+                }
+                break;
             // MOVE COMMANDS
             case 1:
             case 2:

@@ -87,6 +87,15 @@ public class Operand {
         return cpu.memory[offset & 0xff];
     }
 
+    public int immediateWord() {
+        int offset = (int) (cpu.incrPC() & 0xffff);
+        return cpu.memory[offset & 0xffff];
+    }
+
+    public long immediateLong() {
+        return ((immediateWord() << 16) + immediateWord()) & 0xffffffff;
+    }
+
     public int getIndirectAx(int x) {
         return cpu.memory[(int) cpu.getAx(x)];
     }
