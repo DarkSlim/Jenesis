@@ -154,12 +154,12 @@ public class Operand {
 
     public int immediateByte() {
         int offset = (int) (cpu.incrPC() & 0xffff);
-        return cpu.memory[offset] & 0xff;
+        return cpu.memory.get(offset) & 0xff;
     }
 
     public int immediateWord() {
         int offset = (int) (cpu.incrPC() & 0xffff);
-        return cpu.memory[offset] & 0xffff;
+        return cpu.memory.get(offset) & 0xffff;
     }
 
     public long immediateLong() {
@@ -175,11 +175,11 @@ public class Operand {
     }
 
     private int getIndirect(int mem) {
-        return cpu.memory[mem];
+        return cpu.memory.get(mem);
     }
 
     private void setIndirect(int mem, long val) {
-        cpu.memory[mem] = (int) val;
+        cpu.memory.set(mem, (int) val);
     }
 
     private int getIndirectAxWithOffset(int x, int offset) {

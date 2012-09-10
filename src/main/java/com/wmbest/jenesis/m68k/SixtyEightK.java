@@ -3,7 +3,7 @@ package com.wmbest.jenesis.m68k;
 import jlibs.core.lang.Ansi;
 
 import com.wmbest.jenesis.m68k.instructions.*;
-import com.wmbest.jenesis.util.*;
+import com.wmbest.jenesis.memory.*;
 
 public class SixtyEightK {
 
@@ -18,15 +18,15 @@ public class SixtyEightK {
     private long mPC;
     private int mSR;
 
-    public int[] memory;
+    public Memory memory;
     private Instruction mCurrentInst = null;
 
-    public SixtyEightK(int[] aMem) {
+    public SixtyEightK(Memory aMem) {
         memory = aMem;
     }
 
     public void run() {
-        while (memory[(int)getPC()] != 0) {
+        while (memory.get((int)getPC()) != 0) {
             tick();
         }
     }
@@ -35,10 +35,10 @@ public class SixtyEightK {
         Ansi ansi = new Ansi(Ansi.Attribute.NORMAL, Ansi.Color.GREEN, Ansi.Color.BLACK);
         ansi.out(toString());
         if (mCurrentInst == null || mCurrentInst.cost == 0) {
-            mCurrentInst = Instruction.getInstruction(this, memory[(int)mPC]);
+            mCurrentInst = Instruction.getInstruction(this, memory.get((int)mPC));
 
             mCurrentInst.call();
-            mPC++;
+            mPC += 2;
         }
         mCurrentInst.cost--;
     }
@@ -48,7 +48,8 @@ public class SixtyEightK {
     }
 
     public long incrPC() {
-        return ++mPC;
+        mPC += 2;  // We need to keep this word aligned even though memory is index on the byte
+        return mPC;
     }
 
     public void setPC(long aPC) {
@@ -73,37 +74,6 @@ public class SixtyEightK {
 
     public int ccr() {
         return (int)(mSR & 0x1f);
-    }
-
-    public void writeByte(int address, int value) {
-        int inMem = memory[address];
-        inMem = inMem & NOT_BYTE_MASK;
-        inMem |= (value & BYTE_MASK);
-        memory[address] = inMem;
-    }
-
-    public void writeWord(int address, int value) {
-        int inMem = memory[address];
-        inMem = inMem & NOT_WORD_MASK;
-        inMem |= (value & WORD_MASK);
-        memory[address] = inMem;
-    }
-
-    public void writeLong(int address, long value) {
-        writeWord(address, (int) (value >> 16));
-        writeWord(address + 1, (int)(value & WORD_MASK));
-    }
-
-    public int readByte(int address) {
-        return -1;
-    }
-
-    public int readWord(int address) {
-        return -1;
-    }
-
-    public long readLong(int address) {
-        return -1;
     }
 
     public String toString() {

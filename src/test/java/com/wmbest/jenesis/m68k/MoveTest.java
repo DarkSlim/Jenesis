@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import com.wmbest.jenesis.m68k.instructions.*;
+import com.wmbest.jenesis.memory.*;
 
 /**
  * Unit test for simple App.
@@ -13,7 +14,7 @@ public class MoveTest
     extends TestCase
 {
 
-    int[] mem;
+    Memory mem;
     SixtyEightK cpu;
 
     /**
@@ -37,14 +38,14 @@ public class MoveTest
     public void setUp() throws Exception {
         super.setUp();
 
-        mem = new int[0xffff];
+        mem = new Memory();
         cpu = new SixtyEightK(mem);
     }
 
     public void testMoveDtoD()
     {
         cpu.setDx(1, 0xffcc);
-        mem[0] = 0x2601;
+        mem.put(0x2601);
         cpu.run();
 
         assertEquals("D3 did not have the proper value.", cpu.getDx(3), 0xffcc);
@@ -53,7 +54,7 @@ public class MoveTest
     public void testMoveAtoA()
     {
         cpu.setAx(1, 0xffcc);
-        mem[0] = 0x3649;
+        mem.put(0x3649);
         cpu.run();
 
         assertEquals("A3 did not have the proper value.", cpu.getAx(3), 0xffcc);
@@ -62,7 +63,7 @@ public class MoveTest
     public void testMoveDtoA()
     {
         cpu.setDx(1, 0xffcc);
-        mem[0] = 0x3641;
+        mem.put(0x3641);
         cpu.run();
 
         assertEquals("A3 did not have the proper value.", cpu.getAx(3), 0xffcc);
@@ -71,7 +72,7 @@ public class MoveTest
     public void testMoveAtoD()
     {
         cpu.setAx(1, 0xffcc);
-        mem[0] = 0x3609;
+        mem.put(0x3609);
         cpu.run();
 
         assertEquals("D3 did not have the proper value.", cpu.getDx(3), 0xffcc);
@@ -79,14 +80,14 @@ public class MoveTest
 
     public void testMoveToIndirectPost() {
         cpu.setAx(1, 0xffcc);
-        mem[0] = 0x387C;
-        mem[1] = 0x0100;
-        mem[2] = 0x38C9;
+        mem.put(0x387C);
+        mem.put(0x0100);
+        mem.put(0x38C9);
 
         cpu.run();
         System.out.println(cpu.toString());
 
         assertEquals("A4 did not have the proper value.", 0x102, cpu.getAx(4));
-        assertEquals("Memory did not have the proper value.", 0xffcc, mem[0x100]);
+        assertEquals("Memory did not have the proper value.", 0xffcc, mem.get(0x100));
     }
 }
