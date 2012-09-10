@@ -25,13 +25,19 @@ public class SixtyEightK {
         memory = aMem;
     }
 
+    public void run() {
+        while (memory[(int)getPC()] != 0) {
+            tick();
+        }
+    }
+
     public void tick() {
         Ansi ansi = new Ansi(Ansi.Attribute.NORMAL, Ansi.Color.GREEN, Ansi.Color.BLACK);
         ansi.out(toString());
         if (mCurrentInst == null || mCurrentInst.cost == 0) {
             mCurrentInst = Instruction.getInstruction(this, memory[(int)mPC]);
 
-            mCurrentInst.handle();
+            mCurrentInst.call();
             mPC++;
         }
         mCurrentInst.cost--;
@@ -103,7 +109,7 @@ public class SixtyEightK {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("++++++++++++++++++++    68000    +++++++++++++++++++++\n");
-        builder.append("    PC:  0b" + Long.toBinaryString(mPC) + "\n");
+        builder.append("    PC:  0x" + Long.toHexString(mPC) + "\n");
         builder.append("    D[0-7]: (");
         for (int i = 0; i < 8; ++i) {
             builder.append("0x" + Long.toHexString(mDRegisters[i]));

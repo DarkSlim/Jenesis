@@ -22,7 +22,7 @@ public abstract class Instruction {
 
     public static final String[] SIZE_STRING = new String[] {"INVALID", "BYTE", "LONG", "WORD"};
     
-    public abstract void handle();
+    protected abstract void handle();
     public abstract String disassemble();
 
     public void call() {
@@ -86,6 +86,9 @@ public abstract class Instruction {
 
         switch(opcode) {
             case 0: switch(value  >> 8) {
+                case 4:
+                    result = new SubI();
+                    break;
                 case 6:
                     result = new AddI();
                     break;

@@ -3,14 +3,14 @@ package com.wmbest.jenesis.m68k.instructions;
 import jlibs.core.lang.Ansi;
 import com.wmbest.jenesis.m68k.*;
 
-public class AddI extends TwoOpInstruction {
+public class SubI extends TwoOpInstruction {
 
     int size;
 
     public void setup(int value) {
         super.setup(value);
 
-        name = "ADDI";
+        name = "SUBI";
         size = getSize();
 
         for( int i = 0; i < operands.length; ++i) {
@@ -41,16 +41,16 @@ public class AddI extends TwoOpInstruction {
         ansi.outln("Size: " + SIZE_STRING[size] + "\n");
 
         if (size == BYTE) {
-            operands[0].setVal(operands[0].getVal() + operands[1].immediateByte());
+            operands[0].setVal(operands[0].getVal() - operands[1].immediateByte());
         } else if (size == WORD) {
-            operands[0].setVal(operands[0].getVal() + operands[1].immediateWord());
+            operands[0].setVal(operands[0].getVal() - operands[1].immediateWord());
         } else {
-            operands[0].setVal(operands[0].getVal() + operands[1].immediateLong());
+            operands[0].setVal(operands[0].getVal() - operands[1].immediateLong());
         }
     }
 
     @Override
     public String disassemble() {
-        return "ADDI";
+        return "SUBI";
     }
 }

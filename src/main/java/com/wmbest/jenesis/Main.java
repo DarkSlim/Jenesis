@@ -19,11 +19,18 @@ public class Main {
         mMem[5] = 0x0681;
         mMem[6] = 0xFFFF;
         mMem[7] = 0xCCCC;
+        mMem[8] = 0x2601;
+        mMem[9] = 0x0483;
+        mMem[10] = 0x0F0F;
+        mMem[11] = 0x0C0C;
+        mMem[12] = 0x387C;
+        mMem[13] = 0x0100;
+        mMem[14] = 0x38C9;
+
 
         mCPU = new SixtyEightK(mMem);
-        while (mMem[(int)mCPU.getPC()] != 0) {
-            mCPU.tick();
-        }
+        mCPU.run();
+
         Ansi ansi = new Ansi(Ansi.Attribute.NORMAL, Ansi.Color.GREEN, Ansi.Color.BLACK);
         ansi.out(mCPU.toString());
     }
