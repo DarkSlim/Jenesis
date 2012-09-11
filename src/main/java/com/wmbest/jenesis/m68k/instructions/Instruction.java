@@ -107,6 +107,9 @@ public abstract class Instruction {
                 throw new UnsupportedOpcodeException(value);
         }
 
+        if (result == null) {
+            System.out.println("HEHEHRHEHERHRE:ERSAKLFDJLKFALSKHDFHA");
+        }
         result.cpu = cpu;
         result.setup(value);
 

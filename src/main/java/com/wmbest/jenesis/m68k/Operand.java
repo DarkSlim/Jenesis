@@ -69,15 +69,15 @@ public class Operand {
 
         boolean isLong = (lowerWord & 0x0800) >> 11 == 1;
 
-        int scale = (isLong) ? 4 : 2;
+        int scale = (isLong) ? 2 : 1;
 
-        if (xn > 8) {
+        if (xn >= 8) {
             offset += cpu.getAx(xn - 8) * scale;
         } else {
             offset += cpu.getDx(xn) * scale;
         }
 
-        return scale;
+        return offset;
     }
 
     private long getModeSix() {

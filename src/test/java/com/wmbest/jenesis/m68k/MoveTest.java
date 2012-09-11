@@ -14,7 +14,7 @@ public class MoveTest
     extends TestCase
 {
 
-    Memory mem;
+    Memory mem = new Memory();
     SixtyEightK cpu;
 
     /**
@@ -38,8 +38,13 @@ public class MoveTest
     public void setUp() throws Exception {
         super.setUp();
 
-        mem = new Memory();
         cpu = new SixtyEightK(mem);
+    }
+
+    public void tearDown() throws Exception {
+        super.tearDown();
+
+        mem.clear();
     }
 
     public void testMoveDtoD()
@@ -89,5 +94,65 @@ public class MoveTest
 
         assertEquals("A4 did not have the proper value.", 0x102, cpu.getAx(4));
         assertEquals("Memory did not have the proper value.", 0xffcc, mem.get(0x100));
+    }
+
+    public void testMoveToIndirectPre() {
+        System.out.println("INDIRECT PRE-INCR");
+        cpu.setAx(1, 0xffcc);
+        cpu.setAx(4, 0x100);
+
+        mem.put(0x3909);
+
+        cpu.run();
+        System.out.println(cpu.toString());
+
+        assertEquals("A4 did not have the proper value.", 0xfe, cpu.getAx(4));
+        assertEquals("Memory did not have the proper value.", 0xffcc, mem.get(0xfe));
+    }
+
+    public void testMoveIndirectOffset() {
+        cpu.setDx(1, 0xffcc);
+        cpu.setAx(1, 0x100);
+        cpu.setAx(2, 0x200);
+
+        assertEquals("D1 did not have the proper value.", 0xffcc, cpu.getDx(1));
+        assertEquals("A1 did not have the proper value.", 0x100, cpu.getAx(1));
+        assertEquals("A2 did not have the proper value.", 0x200, cpu.getAx(2));
+
+        mem.put(0x3341);
+        mem.put(0x0003);
+        mem.put(0x3569);
+        mem.put(0x0003);
+        mem.put(0x0002);
+
+        cpu.run();
+        System.out.println(cpu.toString());
+
+        assertEquals("Memory did not have the proper value.", 0xffcc, mem.get(0x103));
+        assertEquals("Memory did not have the proper value.", 0xffcc, mem.get(0x202));
+    }
+
+    public void testMoveIndirectOffsetWithIndex() {
+        cpu.setDx(1, 0xffcc);
+        cpu.setDx(3, 0xc);
+        cpu.setAx(1, 0x100);
+        cpu.setAx(2, 0x200);
+        cpu.setAx(3, 0xc);
+
+        assertEquals("D1 did not have the proper value.", 0xffcc, cpu.getDx(1));
+        assertEquals("A1 did not have the proper value.", 0x100, cpu.getAx(1));
+        assertEquals("A2 did not have the proper value.", 0x200, cpu.getAx(2));
+
+        mem.put(0x3381);
+        mem.put(0x3002);
+        mem.put(0x3571);
+        mem.put(0xB002);
+        mem.put(0x0002);
+
+        cpu.run();
+        System.out.println(cpu.toString());
+
+        assertEquals("Memory[0x10c] did not have the proper value.", 0xffcc, mem.get(0x10e));
+        assertEquals("Memory[0x202] did not have the proper value.", 0xffcc, mem.get(0x202));
     }
 }
