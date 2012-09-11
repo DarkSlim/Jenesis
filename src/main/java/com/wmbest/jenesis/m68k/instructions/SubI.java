@@ -5,8 +5,6 @@ import com.wmbest.jenesis.m68k.*;
 
 public class SubI extends TwoOpInstruction {
 
-    int size;
-
     public void setup(int value) {
         super.setup(value);
 

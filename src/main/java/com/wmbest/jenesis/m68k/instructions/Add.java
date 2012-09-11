@@ -5,8 +5,6 @@ import com.wmbest.jenesis.m68k.*;
 
 public class Add extends TwoOpInstruction {
 
-    int size;
-
     public void setup(int value) {
         super.setup(value);
 
@@ -41,17 +39,44 @@ public class Add extends TwoOpInstruction {
     public void handle() {
         Ansi ansi = new Ansi(Ansi.Attribute.NORMAL, Ansi.Color.CYAN, Ansi.Color.BLACK);
         ansi.outln(toString());
-        ansi.outln("Second Type: 0b" + Integer.toBinaryString(operands[1].mode));
-        ansi.outln("Second Register: 0b" + Integer.toBinaryString(operands[1].reg));
-        ansi.outln("Size: " + SIZE_STRING[size] + "\n");
+
+        if (operands[1].mode > 4 && operands[1].mode < 7) {
+            if (operands[0].mode == 0) {
+                addDx(true);
+                return;
+            } else if (operands[0].mode == 1) {
+                addAPreWithX();
+                return;
+            }
+        }
 
         if (operands[1].mode < 3) {
-            cpu.setDx(operands[1].reg, operands[0].getVal() + cpu.getDx(operands[1].reg));
+            addDx(false);
         } else if (operands[1].mode == 3 || operands[1].mode == 7) {
-            cpu.setAx(operands[1].reg, operands[0].getVal() + cpu.getAx(operands[1].reg));
+            addA();
         } else {
-            operands[0].setVal(operands[0].getVal() + cpu.getDx(operands[1].reg));
+            addEA();
         }
+    }
+
+    public void addDx(boolean x) {
+        cpu.setDx(operands[1].reg, operands[0].getVal() +
+            cpu.getDx(operands[1].reg) + (x ? cpu.getXBit() : 0));
+    }
+
+    public void addA() {
+        cpu.setAx(operands[1].reg, operands[0].getVal() + cpu.getAx(operands[1].reg));
+    }
+
+    public void addEA() {
+        operands[0].setVal(operands[0].getVal() + cpu.getDx(operands[1].reg));
+    }
+
+    public void addAPreWithX() {
+        cpu.setAx(operands[1].reg, operands[0].getVal() +
+            cpu.getAx(operands[1].reg) + cpu.getXBit());
+        cpu.setAx(operands[0].reg, cpu.getAx(operands[0].reg) - sizeToByte(size));
+        cpu.setAx(operands[1].reg, cpu.getAx(operands[1].reg) - sizeToByte(size));
     }
 
     @Override

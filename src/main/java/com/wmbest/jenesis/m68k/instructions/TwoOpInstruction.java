@@ -4,6 +4,8 @@ import com.wmbest.jenesis.m68k.*;
 import com.wmbest.jenesis.util.*;
 
 public abstract class TwoOpInstruction extends SEAInstruction {
+
+    int size;
     
     @Override
     public void setup(int value) {
@@ -20,6 +22,10 @@ public abstract class TwoOpInstruction extends SEAInstruction {
     }
 
     public String toString() {
-        return super.toString();
+        StringBuilder builder = new StringBuilder(super.toString());
+        builder.append("Second Type: 0b" + Integer.toBinaryString(operands[1].mode));
+        builder.append("Second Register: 0b" + Integer.toBinaryString(operands[1].reg));
+        builder.append("Size: " + SIZE_STRING[size] + "\n");
+        return builder.toString();
     }
 }

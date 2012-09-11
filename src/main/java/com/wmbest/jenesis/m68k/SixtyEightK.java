@@ -76,6 +76,10 @@ public class SixtyEightK {
         return (int)(mSR & 0x1f);
     }
 
+    public int getXBit() {
+        return (mSR & 0x10) >> 4;
+    }
+
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("++++++++++++++++++++    68000    +++++++++++++++++++++\n");

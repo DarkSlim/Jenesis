@@ -100,6 +100,9 @@ public abstract class Instruction {
             case 3:
                 result = new Move();
                 break;
+            case 5:
+                result = new AddQ();
+                break;
             case 13:
                 result = new Add();
                 break;
@@ -107,9 +110,6 @@ public abstract class Instruction {
                 throw new UnsupportedOpcodeException(value);
         }
 
-        if (result == null) {
-            System.out.println("HEHEHRHEHERHRE:ERSAKLFDJLKFALSKHDFHA");
-        }
         result.cpu = cpu;
         result.setup(value);
 
