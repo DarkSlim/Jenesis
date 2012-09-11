@@ -100,6 +100,8 @@ public abstract class Instruction {
             case 3:
                 result = new Move();
                 break;
+            case 4:
+                result = SystemInstruction.getInstruction(value);
             case 5:
                 result = new AddQ();
                 break;
