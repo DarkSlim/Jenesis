@@ -3,39 +3,39 @@ package com.wmbest.jenesis.m68k.instructions;
 import com.wmbest.jenesis.m68k.*;
 import com.wmbest.jenesis.util.*;
 
-public abstract class SystemInstruction extends Instruction {
+public abstract class SystemInstruction extends SEAInstruction {
     
     public static SystemInstruction getInstruction(int value) {
         // 16 bit constant value functions
         switch(value) {
             case 0x4AFC:
-                // TODO: ILLEGAL
+                /** \todo: ILLEGAL */
             case 0x4E70:
-                // TODO: RESET
+                /** \todo: RESET */
             case 0x4E71:
-                // TODO: NOP
+                /** \todo: NOP */
             case 0x4E72:
-                // TODO: STOP
+                /** \todo: STOP */
             case 0x4E73:
-                // TODO: RTE
+                /** \todo: RTE */
             case 0x4E75:
-                // TODO: RTS 
+                /** \todo: RTS  */
             case 0x4E76:
-                // TODO: TRAPV 
+                /** \todo: TRAPV  */
             case 0x4E77:
-                // TODO: RTR
+                /** \todo: RTR */
         }
 
         int secondAndThird = (value & 0x0ff0) >> 4;
         // 12 bit constant functions
         switch (secondAndThird) {
             case 0xE4:
-                // TODO TRAP
+                /** \todo TRAP */
             case 0xE5:
-                // TODO LINK (ea MODE 0b010)
-                // TODO UNLK (ea MODE 0b011)
+                /** \todo LINK (ea MODE 0b010) */
+                /** \todo UNLK (ea MODE 0b011) */
             case 0xE6:
-                // TODO MOVE USP
+                /** \todo MOVE USP */
         }
 
         // 8 bit constant functions
@@ -43,30 +43,31 @@ public abstract class SystemInstruction extends Instruction {
 
         switch(secondByte) {
             case 0x0:
-                // TODO MOVE from SR (size 0b11)
-                // TODO NEGX (size 0b00 ~ 0b10)
+                /** \todo MOVE from SR (size 0b11) */
+                /** \todo NEGX (size 0b00 ~ 0b10) */
             case 0x4:
-                // TODO MOVE to CCR (size 0b11)
-                // TODO NEG (size 0b00 ~ 0b10)
+                /** \todo MOVE to CCR (size 0b11) */
+                /** \todo NEG (size 0b00 ~ 0b10) */
             case 0x6:
-                // TODO MOVE to SR (size 0b11)
-                // TODO NOT (size 0b00 ~ 0b10)
+                /** \todo MOVE to SR (size 0b11) */
+                /** \todo NOT (size 0b00 ~ 0b10) */
             case 0x8:
-                // TODO EXT (size 0b10 ~ 0b11, ea MODE 0b000)
-                // TODO MOVEM (size 0b10 ~ 0b11)
-                // TODO NCBD (size 0b00)
-                // TODO SWAP (size 0b01, ea MODE 0b000)
-                // TODO PEA (size 0b01)
+                /** \todo EXT (size 0b10 ~ 0b11, ea MODE 0b000) */
+                /** \todo MOVEM (size 0b10 ~ 0b11) */
+                /** \todo NCBD (size 0b00) */
+                /** \todo SWAP (size 0b01, ea MODE 0b000) */
+                /** \todo PEA (size 0b01) */
             case 0xa:
                 // ILLEGAL ALREADY TAKEN CARE OF
-                //TODO TAS (size 0b11)
-                //TODO TST (size 0b00 ~ 0b10)
+                //\todo TAS (size 0b11) */
+                //\todo TST (size 0b00 ~ 0b10) */
             case 0xc:
-                // TODO MOVEM (size 0b10 ~ 0b11)
+                /** \todo MOVEM (size 0b10 ~ 0b11) */
             case 0xe:
                 // RESET, NOP, STOP, RTE, RTS, TRAPV, RTR Already Handled
-                //TODO JSR (size 0b10)
-                //TODO JMP (size 0b11)
+                // TRAP, LINK, UNLK, MOVE USP  Also taken care of already
+                /** \todo JSR (size 0b10) */
+                /** \todo JMP (size 0b11) */
         }
 
         throw new UnsupportedOpcodeException(value);

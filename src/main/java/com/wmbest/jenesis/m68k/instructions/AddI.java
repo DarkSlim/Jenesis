@@ -3,7 +3,7 @@ package com.wmbest.jenesis.m68k.instructions;
 import jlibs.core.lang.Ansi;
 import com.wmbest.jenesis.m68k.*;
 
-public class AddI extends TwoOpInstruction {
+public class AddI extends ImmediateInstruction {
 
     public void setup(int value) {
         super.setup(value);
