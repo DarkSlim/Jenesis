@@ -135,8 +135,8 @@ public class Operand {
             case 1:
                 cpu.setAx(reg, val);
                 break;
-            case 2: //Indirect PreIncrement... see {@link #preHandle()}
-            case 3: //Indirect PostIncrement... see {@link #postHandle()}
+            case 2: //!< Indirect PreIncrement... see {@link #preHandle()}
+            case 3: //!< Indirect PostIncrement... see {@link #postHandle()}
             case 4:
                 setIndirectAx(reg, val); // Indirect Pre Increment 
                 break;
