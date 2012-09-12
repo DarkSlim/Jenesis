@@ -9,21 +9,21 @@ public abstract class SystemInstruction extends SEAInstruction {
         // 16 bit constant value functions
         switch(value) {
             case 0x4AFC:
-                /** \todo: ILLEGAL */
+                /** \todo ILLEGAL */
             case 0x4E70:
-                /** \todo: RESET */
+                /** \todo RESET */
             case 0x4E71:
-                /** \todo: NOP */
+                /** \todo NOP */
             case 0x4E72:
-                /** \todo: STOP */
+                /** \todo STOP */
             case 0x4E73:
-                /** \todo: RTE */
+                /** \todo RTE */
             case 0x4E75:
-                /** \todo: RTS  */
+                /** \todo RTS  */
             case 0x4E76:
-                /** \todo: TRAPV  */
+                /** \todo TRAPV  */
             case 0x4E77:
-                /** \todo: RTR */
+                /** \todo RTR */
         }
 
         int secondAndThird = (value & 0x0ff0) >> 4;
