@@ -10,7 +10,7 @@ Currently this project is closed for contribution.  It is strictly a learn bed f
 
 ## TODO List
 
-The following todo shows the current list of OPCodes needing implemented.  I will hopefully soon have all the opcode decode and only requiring implementation.
+The following todo shows the current list of opcodes needing implemented.  I will hopefully soon have all the opcode decoded, only requiring implementation.
 
 http://wmbest2.github.com/Jenesis/todo.html
 
