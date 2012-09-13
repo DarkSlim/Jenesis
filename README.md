@@ -6,7 +6,7 @@ A Sega Genesis Emulator Written in Java
 
 ## Contribution
 
-Currently this project is closed for contribution.  It is strictly a learn bed for myself at the moment.  If you would like to use the code the code is available under GPL 3.
+Currently this project is closed for contribution.  It is strictly a learning bed for myself at the moment.  If you would like to use the code the code is available under GPL 3.
 
 ## TODO List
 
