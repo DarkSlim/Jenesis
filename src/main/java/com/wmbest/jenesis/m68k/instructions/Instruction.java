@@ -89,9 +89,8 @@ public abstract class Instruction {
         Instruction result = null;
 
         switch(opcode) {
-            case 0: switch(value  >> 8) {
+            case 0:
                 return ImmediateInstruction.getInstruction(value);
-                break;
             // MOVE COMMANDS
             case 1:
             case 2:
@@ -101,7 +100,6 @@ public abstract class Instruction {
             case 4:
                 result = SystemInstruction.getInstruction(value);
             case 5:
-                result = new AddQ();
                 break;
             case 13:
                 result = new Add();
