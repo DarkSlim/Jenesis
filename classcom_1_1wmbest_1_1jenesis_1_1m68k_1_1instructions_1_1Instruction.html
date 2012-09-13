@@ -92,6 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1Instruction-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">com.wmbest.jenesis.m68k.instructions.Instruction Class Reference</div>  </div>
@@ -103,17 +104,18 @@ Inheritance diagram for com.wmbest.jenesis.m68k.instructions.Instruction:</div>
  <div class="center">
   <img src="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1Instruction.png" usemap="#com.wmbest.jenesis.m68k.instructions.Instruction_map" alt=""/>
   <map id="com.wmbest.jenesis.m68k.instructions.Instruction_map" name="com.wmbest.jenesis.m68k.instructions.Instruction_map">
-<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1SEAInstruction.html" alt="com.wmbest.jenesis.m68k.instructions.SEAInstruction" shape="rect" coords="351,56,692,80"/>
-<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1BitwiseInstruction.html" alt="com.wmbest.jenesis.m68k.instructions.BitwiseInstruction" shape="rect" coords="0,112,341,136"/>
-<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1SystemInstruction.html" alt="com.wmbest.jenesis.m68k.instructions.SystemInstruction" shape="rect" coords="351,112,692,136"/>
-<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1TwoOpInstruction.html" alt="com.wmbest.jenesis.m68k.instructions.TwoOpInstruction" shape="rect" coords="702,112,1043,136"/>
-<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1Add.html" alt="com.wmbest.jenesis.m68k.instructions.Add" shape="rect" coords="0,168,341,192"/>
-<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1AddQ.html" alt="com.wmbest.jenesis.m68k.instructions.AddQ" shape="rect" coords="351,168,692,192"/>
-<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1And.html" alt="com.wmbest.jenesis.m68k.instructions.And" shape="rect" coords="702,168,1043,192"/>
-<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1ImmediateInstruction.html" alt="com.wmbest.jenesis.m68k.instructions.ImmediateInstruction" shape="rect" coords="1053,168,1394,192"/>
-<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1Move.html" alt="com.wmbest.jenesis.m68k.instructions.Move" shape="rect" coords="1404,168,1745,192"/>
-<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1AddI.html" alt="com.wmbest.jenesis.m68k.instructions.AddI" shape="rect" coords="877,224,1218,248"/>
-<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1SubI.html" alt="com.wmbest.jenesis.m68k.instructions.SubI" shape="rect" coords="1228,224,1569,248"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1SEAInstruction.html" alt="com.wmbest.jenesis.m68k.instructions.SEAInstruction" shape="rect" coords="589,56,972,80"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1BitwiseInstruction.html" alt="com.wmbest.jenesis.m68k.instructions.BitwiseInstruction" shape="rect" coords="0,112,383,136"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1QuickAndBranchInstruction.html" alt="com.wmbest.jenesis.m68k.instructions.QuickAndBranchInstruction" shape="rect" coords="393,112,776,136"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1SystemInstruction.html" alt="com.wmbest.jenesis.m68k.instructions.SystemInstruction" shape="rect" coords="786,112,1169,136"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1TwoOpInstruction.html" alt="com.wmbest.jenesis.m68k.instructions.TwoOpInstruction" shape="rect" coords="1179,112,1562,136"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1Add.html" alt="com.wmbest.jenesis.m68k.instructions.Add" shape="rect" coords="393,168,776,192"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1AddQ.html" alt="com.wmbest.jenesis.m68k.instructions.AddQ" shape="rect" coords="786,168,1169,192"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1And.html" alt="com.wmbest.jenesis.m68k.instructions.And" shape="rect" coords="1179,168,1562,192"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1ImmediateInstruction.html" alt="com.wmbest.jenesis.m68k.instructions.ImmediateInstruction" shape="rect" coords="1572,168,1955,192"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1Move.html" alt="com.wmbest.jenesis.m68k.instructions.Move" shape="rect" coords="1965,168,2348,192"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1AddI.html" alt="com.wmbest.jenesis.m68k.instructions.AddI" shape="rect" coords="1375,224,1758,248"/>
+<area href="classcom_1_1wmbest_1_1jenesis_1_1m68k_1_1instructions_1_1SubI.html" alt="com.wmbest.jenesis.m68k.instructions.SubI" shape="rect" coords="1768,224,2151,248"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -176,6 +178,11 @@ static final String[]&#160;</td><td class="memItemRight" valign="bottom"><b>SIZE
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:ad65cf811ce02795e7b84db158457871b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad65cf811ce02795e7b84db158457871b"></a>
 abstract void&#160;</td><td class="memItemRight" valign="bottom"><b>handle</b> ()</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="pro-static-methods"></a>
+Static Protected Member Functions</h2></td></tr>
+<tr class="memitem:aa7934428325b635ba443aadce472afb2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa7934428325b635ba443aadce472afb2"></a>
+static boolean&#160;</td><td class="memItemRight" valign="bottom"><b>checkBits</b> (int value, int mask)</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/main/java/com/wmbest/jenesis/m68k/instructions/Instruction.java</li>
@@ -183,7 +190,7 @@ abstract void&#160;</td><td class="memItemRight" valign="bottom"><b>handle</b> (
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 11 2012 21:06:17 for Jenesis by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Sep 12 2012 20:48:12 for Jenesis by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>
