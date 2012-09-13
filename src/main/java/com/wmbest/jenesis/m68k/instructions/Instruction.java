@@ -100,6 +100,9 @@ public abstract class Instruction {
             case 4:
                 result = SystemInstruction.getInstruction(value);
             case 5:
+            case 6:
+            case 7:
+                result = QuickAndBranchInstruction.getInstruction(value);
                 break;
             case 13:
                 result = new Add();

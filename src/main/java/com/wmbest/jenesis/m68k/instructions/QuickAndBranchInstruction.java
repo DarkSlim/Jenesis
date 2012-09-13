@@ -3,23 +3,24 @@ package com.wmbest.jenesis.m68k.instructions;
 import com.wmbest.jenesis.m68k.*;
 import com.wmbest.jenesis.util.*;
 
-public abstract class QuickAndBranchInstruction extends SEAInstruction {
+public abstract class QuickAndBranchInstruction extends TwoOpInstruction {
     
     public static QuickAndBranchInstruction getInstruction(int value) {
 
+        int first = (value >> 12) & 0xf;
 
         if (first == 5) {
-            if (checkBit(value, 0x64)) {
+            if (checkBits(value, 0x64)) {
                 /** \todo DBcc */
-            } else if (checkBit(value, 0x60)) {
+            } else if (checkBits(value, 0x60)) {
                 /** \todo Scc */
-            } else if (checkBit(value, 0x10)) {
-                result = new AddQ();
+            } else if (checkBits(value, 0x10)) {
+                return new AddQ();
             } else {
-                /** \todo SUBQ */
+                return new SubQ();
             }
         } else if (first == 6) {
-            int secondByte = (value >> 12) & 0xf;
+            int secondByte = (value >> 8) & 0xf;
             if (secondByte == 0x0) {
                 /** \todo BRA */
             } else if (secondByte == 0x1) {
