@@ -33,6 +33,10 @@ public abstract class Instruction {
         postHandle();
     }
 
+    protected static boolean checkBits(int value, int mask) {
+        return (value & mask) == mask;
+    }
+
     private void preHandle() {
         for (int i = 0; i < operands.length; i++) {
             if (operands[i] != null)
@@ -86,13 +90,7 @@ public abstract class Instruction {
 
         switch(opcode) {
             case 0: switch(value  >> 8) {
-                case 4:
-                    result = new SubI();
-                    break;
-                case 6:
-                    result = new AddI();
-                    break;
-                }
+                return ImmediateInstruction.getInstruction(value);
                 break;
             // MOVE COMMANDS
             case 1:
