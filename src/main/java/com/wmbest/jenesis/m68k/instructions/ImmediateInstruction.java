@@ -12,9 +12,7 @@ public abstract class ImmediateInstruction extends TwoOpInstruction {
 
         switch(secondByte) {
             case 0x0:
-                /** \todo ORI to CCR (size 0b00, ea MODE 0b111) */
-                /** \todo ORI to SR (size 0b01, ea MODE 0b111) */
-                /** \todo ORI */
+                return OrI.getInstruction(value);
             case 0x2:
                 return AndI.getInstruction(value);
             case 0x4:
