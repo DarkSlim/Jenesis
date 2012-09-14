@@ -12,6 +12,8 @@ public class SixtyEightK {
     public static final int WORD_MASK     = 0x0000ffff;
     public static final int NOT_WORD_MASK = 0xffff0000;
 
+    public static final long Z_MASK = 0x4;
+
     private long[] mDRegisters = new long[8];
     private long[] mARegisters = new long[8];
 
@@ -98,6 +100,14 @@ public class SixtyEightK {
 
     public boolean X() {
         return ((mSR >> 4) & 0x1) == 1;
+    }
+
+    public void setZ(boolean value) {
+        if (value) {
+            mSR |= Z_MASK;
+        } else {
+            mSR &= ~Z_MASK;
+        }
     }
 
     public boolean hi() {

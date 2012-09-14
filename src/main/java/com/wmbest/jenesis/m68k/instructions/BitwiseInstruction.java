@@ -17,13 +17,13 @@ public abstract class BitwiseInstruction extends SEAInstruction {
 
         switch(cmd & 0xff) {
             case 0x0:
-                /** \todo BTST */
+                return new Btst();
             case 0x1:
-                /** \todo BCHG */
+                return new Bchg();
             case 0x2:
-                /** \todo BCLR */
+                return new Bclr();
             case 0x3:
-                /** \todo BSET */
+                return new Bset();
         }
 
         throw new UnsupportedOpcodeException(value);
