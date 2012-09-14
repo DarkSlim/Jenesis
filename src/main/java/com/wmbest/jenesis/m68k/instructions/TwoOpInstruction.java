@@ -4,8 +4,6 @@ import com.wmbest.jenesis.m68k.*;
 import com.wmbest.jenesis.util.*;
 
 public abstract class TwoOpInstruction extends SEAInstruction {
-
-    int size;
     
     @Override
     public void setup(int value) {

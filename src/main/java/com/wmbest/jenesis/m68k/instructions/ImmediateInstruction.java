@@ -16,9 +16,7 @@ public abstract class ImmediateInstruction extends TwoOpInstruction {
                 /** \todo ORI to SR (size 0b01, ea MODE 0b111) */
                 /** \todo ORI */
             case 0x2:
-                /** \todo ANDI to CCR (size 0b00, ea MODE 0b111) */
-                /** \todo ANDI to SR (size 0b01, ea MODE 0b111) */
-                /** \todo ANDI */
+                return AndI.getInstruction(value);
             case 0x4:
                 return new SubI();
             case 0x6:

@@ -72,12 +72,88 @@ public class SixtyEightK {
         mARegisters[(int) x] = val;
     }
 
-    public int ccr() {
+    public int getCCR() {
         return (int)(mSR & 0x1f);
     }
 
-    public int getXBit() {
-        return (mSR & 0x10) >> 4;
+    public void setCCR(int val) {
+        mSR = (mSR & 0xffe) & (val & 0x1f);
+    }
+
+    public boolean C() {
+        return (mSR & 0x1) == 1;
+    }
+
+    public boolean V() {
+        return ((mSR >> 1) & 0x1) == 1;
+    }
+
+    public boolean Z() {
+        return ((mSR >> 2) & 0x1) == 1;
+    }
+
+    public boolean N() {
+        return ((mSR >> 3) & 0x1) == 1;
+    }
+
+    public boolean X() {
+        return ((mSR >> 4) & 0x1) == 1;
+    }
+
+    public boolean hi() {
+        return !C() && !Z();
+    }
+
+    public boolean ls() {
+        return C() || Z();
+    }
+
+    public boolean cc() {
+        return !C();
+    }
+
+    public boolean cs() {
+        return C();
+    }
+
+    public boolean ne() {
+        return Z();
+    }
+
+    public boolean eq() {
+        return !Z();
+    }
+
+    public boolean vc() {
+        return !V();
+    }
+
+    public boolean vs() {
+        return V();
+    }
+
+    public boolean pl() {
+        return !N();
+    }
+
+    public boolean mi() {
+        return N();
+    }
+
+    public boolean ge() {
+        return (N() && V()) || (!N() && !V());
+    }
+
+    public boolean lt() {
+        return !ge();
+    }
+
+    public boolean le() {
+        return Z() || (!N() && V()) || (!V() && N());
+    }
+
+    public boolean gt() {
+        return !le();
     }
 
     public String toString() {

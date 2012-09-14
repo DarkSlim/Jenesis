@@ -61,7 +61,7 @@ public class Add extends TwoOpInstruction {
 
     public void addDx(boolean x) {
         cpu.setDx(operands[1].reg, operands[0].getVal() +
-            cpu.getDx(operands[1].reg) + (x ? cpu.getXBit() : 0));
+            cpu.getDx(operands[1].reg) + ((x && cpu.X()) ? 1 : 0));
     }
 
     public void addA() {
@@ -74,7 +74,7 @@ public class Add extends TwoOpInstruction {
 
     public void addAPreWithX() {
         cpu.setAx(operands[1].reg, operands[0].getVal() +
-            cpu.getAx(operands[1].reg) + cpu.getXBit());
+            cpu.getAx(operands[1].reg) + (cpu.X() ? 1 : 0));
         cpu.setAx(operands[0].reg, cpu.getAx(operands[0].reg) - sizeToByte(size));
         cpu.setAx(operands[1].reg, cpu.getAx(operands[1].reg) - sizeToByte(size));
     }

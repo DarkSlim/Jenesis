@@ -26,7 +26,7 @@ public abstract class QuickAndBranchInstruction extends TwoOpInstruction {
             } else if (secondByte == 0x1) {
                 /** \todo BSR */
             } else {
-                /** \todo Bcc */
+                return new Bcc();
             }
         } else if (first == 7) {
             /** \todo MOVEQ */

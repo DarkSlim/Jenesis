@@ -9,6 +9,8 @@ public abstract class Instruction {
     public int value;
     public int cost = 1;
 
+    int size;
+
     public Operand[] operands = new Operand[2];
 
     public String name = "INVALID";
@@ -23,7 +25,9 @@ public abstract class Instruction {
     public static final String[] SIZE_STRING = new String[] {"INVALID", "BYTE", "LONG", "WORD"};
     
     protected abstract void handle();
-    public abstract String disassemble();
+    public String disassemble() {
+        return name;
+    }
 
     public void call() {
         preHandle();
