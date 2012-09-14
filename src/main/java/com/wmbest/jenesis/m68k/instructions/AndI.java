@@ -4,7 +4,7 @@ import jlibs.core.lang.Ansi;
 import com.wmbest.jenesis.m68k.*;
 
 public class AndI extends ImmediateInstruction {
-
+ 
     public static AndI getInstruction(int value) {
         if (value == 0x023c) {
             return new ANDItoCCR();
