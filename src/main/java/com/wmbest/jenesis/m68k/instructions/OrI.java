@@ -6,9 +6,9 @@ import com.wmbest.jenesis.m68k.*;
 public class OrI extends ImmediateInstruction {
  
     public static OrI getInstruction(int value) {
-        if (value == 0x0a3c) {
+        if (value == 0x003c) {
             return new ORItoCCR();
-        } else if (value == 0x0a7c) {
+        } else if (value == 0x007c) {
             /** \todo ORItoSR */
         }
         return new OrI();
