@@ -11,9 +11,9 @@ public abstract class QuickAndBranchInstruction extends TwoOpInstruction {
 
         if (first == 5) {
             if (checkBits(value, 0x64)) {
-                /** \todo DBcc */
+                return new DBcc();
             } else if (checkBits(value, 0x60)) {
-                /** \todo Scc */
+                return new Scc();
             } else if (checkBits(value, 0x10)) {
                 return new AddQ();
             } else {

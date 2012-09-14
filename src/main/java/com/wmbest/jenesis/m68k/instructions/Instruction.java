@@ -94,7 +94,11 @@ public abstract class Instruction {
 
         switch(opcode) {
             case 0:
-                return ImmediateInstruction.getInstruction(value);
+                result = ImmediateInstruction.getInstruction(value);
+                if (result == null) {
+                    result = BitwiseInstruction.getInstruction(value);
+                }
+                break;
             // MOVE COMMANDS
             case 1:
             case 2:
