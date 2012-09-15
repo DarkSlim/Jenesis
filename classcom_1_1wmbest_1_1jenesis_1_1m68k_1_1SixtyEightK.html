@@ -109,6 +109,10 @@ long&#160;</td><td class="memItemRight" valign="bottom"><b>getPC</b> ()</td></tr
 long&#160;</td><td class="memItemRight" valign="bottom"><b>incrPC</b> ()</td></tr>
 <tr class="memitem:a819bf47bf9c23e41f8c83f248e37e3ae"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a819bf47bf9c23e41f8c83f248e37e3ae"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setPC</b> (long aPC)</td></tr>
+<tr class="memitem:a1852d8200659222acc2b76fde0dc2a09"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1852d8200659222acc2b76fde0dc2a09"></a>
+long&#160;</td><td class="memItemRight" valign="bottom"><b>getSP</b> ()</td></tr>
+<tr class="memitem:a8e95999969e5889ca915ff9e4c59209b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e95999969e5889ca915ff9e4c59209b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setSP</b> (final long aSP)</td></tr>
 <tr class="memitem:a886f9f96e004e91a7ac98529a721fed1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a886f9f96e004e91a7ac98529a721fed1"></a>
 long&#160;</td><td class="memItemRight" valign="bottom"><b>getDx</b> (long x)</td></tr>
 <tr class="memitem:ada7a0942fb9cbefdfea43ed90c0a1915"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ada7a0942fb9cbefdfea43ed90c0a1915"></a>
@@ -179,8 +183,16 @@ static final int&#160;</td><td class="memItemRight" valign="bottom"><b>NOT_BYTE_
 static final int&#160;</td><td class="memItemRight" valign="bottom"><b>WORD_MASK</b> = 0x0000ffff</td></tr>
 <tr class="memitem:a676b6196f43aa796d5d20fcced1bb797"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a676b6196f43aa796d5d20fcced1bb797"></a>
 static final int&#160;</td><td class="memItemRight" valign="bottom"><b>NOT_WORD_MASK</b> = 0xffff0000</td></tr>
+<tr class="memitem:af772ef964cc3c346b59a5986197ed6c8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af772ef964cc3c346b59a5986197ed6c8"></a>
+static final long&#160;</td><td class="memItemRight" valign="bottom"><b>C_MASK</b> = 0x1</td></tr>
+<tr class="memitem:a93c1170f22a7463f4297105f812afb05"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a93c1170f22a7463f4297105f812afb05"></a>
+static final long&#160;</td><td class="memItemRight" valign="bottom"><b>V_MASK</b> = 0x2</td></tr>
 <tr class="memitem:ab497fcc7e3b4e23b7154a3b21767b608"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab497fcc7e3b4e23b7154a3b21767b608"></a>
 static final long&#160;</td><td class="memItemRight" valign="bottom"><b>Z_MASK</b> = 0x4</td></tr>
+<tr class="memitem:ac8a67a53fe7d16647fd0f6145837bc3a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac8a67a53fe7d16647fd0f6145837bc3a"></a>
+static final long&#160;</td><td class="memItemRight" valign="bottom"><b>N_MASK</b> = 0x8</td></tr>
+<tr class="memitem:a83506b731211ee841e733b3cdfe87fbb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a83506b731211ee841e733b3cdfe87fbb"></a>
+static final long&#160;</td><td class="memItemRight" valign="bottom"><b>X_MASK</b> = 0x10</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/main/java/com/wmbest/jenesis/m68k/SixtyEightK.java</li>
@@ -188,7 +200,7 @@ static final long&#160;</td><td class="memItemRight" valign="bottom"><b>Z_MASK</
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 14 2012 15:41:12 for Jenesis by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Sep 15 2012 17:19:03 for Jenesis by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>
