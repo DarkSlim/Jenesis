@@ -22,9 +22,9 @@ public abstract class QuickAndBranchInstruction extends TwoOpInstruction {
         } else if (first == 6) {
             int secondByte = (value >> 8) & 0xf;
             if (secondByte == 0x0) {
-                /** \todo BRA */
+                return new Bra();
             } else if (secondByte == 0x1) {
-                /** \todo BSR */
+                return new Bsr();
             } else {
                 return new Bcc();
             }
