@@ -12,12 +12,21 @@ public class SixtyEightK {
     public static final int WORD_MASK     = 0x0000ffff;
     public static final int NOT_WORD_MASK = 0xffff0000;
 
+    public static final long C_MASK = 0x1;
+    public static final long V_MASK = 0x2;
     public static final long Z_MASK = 0x4;
+    public static final long N_MASK = 0x8;
+    public static final long X_MASK = 0x10;
 
     private long[] mDRegisters = new long[8];
-    private long[] mARegisters = new long[8];
+    private long[] mARegisters = new long[7];
 
     private long mPC;
+    private long mSSP;
+    private long mUSP;
+
+    private boolean isSupervisor;
+
     private int mSR;
 
     public Memory memory;
@@ -58,6 +67,22 @@ public class SixtyEightK {
         mPC = aPC;
     }
 
+    public long getSP() {
+        if (isSupervisor) {
+            return mSSP;
+        }
+        return mUSP;
+    }
+    
+    public void setSP(final long aSP) {
+        if (isSupervisor) {
+            mSSP = aSP;
+        } else {
+            mUSP = aSP;
+        }
+    }
+    
+
     public long getDx(long x) {
         return mDRegisters[(int) x];
     }
@@ -67,10 +92,17 @@ public class SixtyEightK {
     }
 
     public long getAx(long x) {
+        if (x == 7) {
+            return getSP();
+        }
         return mARegisters[(int) x];
     }
 
     public void setAx(long x, long val) {
+        if (x == 7) {
+            setSP(x);
+            return;
+        }
         mARegisters[(int) x] = val;
     }
 
@@ -179,14 +211,16 @@ public class SixtyEightK {
         }
         builder.append(")\n");
 
-        builder.append("    A[0-7]: (");
-        for (int i = 0; i < 8; ++i) {
+        builder.append("    A[0-6]: (");
+        for (int i = 0; i < 7; ++i) {
             builder.append("0x" + Long.toHexString(mARegisters[i]));
 
             if (i != 7) 
                 builder.append(",");
         }
         builder.append(")\n");
+        builder.append("    SSP:  0x" + Long.toHexString(mSSP) + "\n");
+        builder.append("    USP:  0x" + Long.toHexString(mUSP) + "\n");
         builder.append("++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 
         return builder.toString();
