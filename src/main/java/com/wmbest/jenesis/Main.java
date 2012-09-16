@@ -37,7 +37,10 @@ public class Main {
         mMem.put(0x0100);
         mMem.put(0x38C9);
 
-        Debugger debug = new Debugger(mCPU, mMem);
-        debug.show();
+        //Debugger debug = new Debugger(mCPU, mMem);
+        //debug.show();
+
+        Disassembler disassembler = new Disassembler(mMem);
+        disassembler.show();
     }
 }
