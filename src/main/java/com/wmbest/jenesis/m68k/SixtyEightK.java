@@ -25,7 +25,7 @@ public class SixtyEightK {
     private long mSSP;
     private long mUSP;
 
-    private boolean isSupervisor;
+    private Boolean isSupervisor = new Boolean(false);
 
     private int mSR;
 
@@ -34,7 +34,7 @@ public class SixtyEightK {
     private SixtyEightKListener mListener;
 
     private volatile Thread mBackgroundThread;
-    private boolean breakPoint;
+    private Boolean breakPoint = new Boolean(false);
 
     public SixtyEightK(Memory aMem) {
         memory = aMem;
@@ -54,15 +54,16 @@ public class SixtyEightK {
         mBackgroundThread = new Thread() {
             public void run() {
                 while (memory.get((int)getPC()) != 0) {
-                    if (breakPoint) {
-                        try {
-                            wait();
-                        } catch (Exception e) {
-
+                    synchronized(mBackgroundThread) {
+                        if (breakPoint) {
+                            try {
+                                mBackgroundThread.wait();
+                            } catch (Exception e) {
+                            }
                         }
+                        tick();
+                        try { Thread.sleep(1000); } catch(Exception e){}
                     }
-                    tick();
-                    try { Thread.sleep(1000); } catch(Exception e){}
                 }
             }
         };
@@ -89,14 +90,12 @@ public class SixtyEightK {
     }
 
     public void stop() {
-        if (mBackgroundThread != null) {
-            mBackgroundThread.interrupt();
+        synchronized(mBackgroundThread) {
+            breakPoint = false;
         }
     }
 
     public void tick() {
-        Ansi ansi = new Ansi(Ansi.Attribute.NORMAL, Ansi.Color.GREEN, Ansi.Color.BLACK);
-        ansi.out(toString());
         if (mCurrentInst == null || mCurrentInst.cost == 0) {
             mCurrentInst = Instruction.getInstruction(this, memory.get((int)mPC));
 

@@ -15,6 +15,7 @@ public class Debugger {
 
     private Display display;
     private Shell shell;
+    private Table table;
     private Label mCPUData;
     
     public Debugger(SixtyEightK cpu, Memory mem) {
@@ -27,6 +28,7 @@ public class Debugger {
                 Display.getDefault().asyncExec(new Runnable() {
                     public void run() {
                         mCPUData.setText(data);
+                        table.setSelection((int)(Debugger.this.cpu.getPC()/2));
                     }
                 });
             }
@@ -45,7 +47,7 @@ public class Debugger {
     }
 
     private void setup() {
-        display = new Display();
+        display = Display.getDefault();
         shell = new Shell(display);
 
         shell.setLayout(new RowLayout());
@@ -53,6 +55,18 @@ public class Debugger {
         ExpandBar bar = new ExpandBar(shell, SWT.V_SCROLL);
         bar.setLayoutData(new RowData(400, 400));
 
+        table = new Table(shell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+        table.setLinesVisible(true);
+        table.setLayoutData(new RowData(800, 400));
+
+        setupExpandBar(bar);
+        setupMemoryTable(table);
+
+        shell.pack();
+        shell.open();
+    }
+    
+    private void setupExpandBar(ExpandBar bar) {
         ExpandItem controls = new ExpandItem(bar, SWT.NONE, 0);
         Composite comp = new Composite(bar, SWT.NONE);
 
@@ -111,8 +125,33 @@ public class Debugger {
 
         controls.setExpanded(true);
         cpu.setExpanded(true);
+    }
 
-        shell.pack();
-        shell.open();
+    private void setupMemoryTable(final Table table) {
+        table.setRedraw(false);
+
+        for (int i=0; i < 3; i++) {
+            TableColumn col = new TableColumn(table, SWT.NONE);
+            col.setWidth(400/3);
+        }
+
+        for (long i = 0; i < 0xffff; i = i + 2) {
+            final int value = mem.get((int) i);
+            final int index = (int) i;
+
+            Display.getDefault().asyncExec(new Runnable() {
+                public void run() {
+                    if (table.isDisposed()) return;
+                    TableItem instRow = new TableItem(table, SWT.NONE);
+                    instRow.setText(0, "0x" + Integer.toHexString(index));
+                    instRow.setText(1, "0x" + Integer.toHexString(value));
+                    instRow.setText(2, "0b" + Integer.toBinaryString(value));
+
+                    if (index == 0xfffe) {
+                        table.setRedraw(true);
+                    }
+                }
+            });
+        }
     }
 }
