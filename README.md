@@ -20,6 +20,18 @@ http://wmbest2.github.com/Jenesis/todo.html
 
         mvn clean compile assembly:single test
 
+#### Cross Platform Compilation
+
+All major platforms can be built.  The projected uses SWT so you will need to specify the build on which you are targetting.
+
+Mac OS X x64 is the default profile but can also be targeted with the ` -P mac ` flag.  Other options include
+
+* mac_x86
+* linux
+* linux_x86
+* windows
+* windows_x86
+
 #### Running the JAR
 
         java -jar target/Jenesis-1.0-SNAPSHOT-jar-with-dependencies.jar
