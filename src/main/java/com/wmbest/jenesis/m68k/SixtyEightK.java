@@ -31,14 +31,66 @@ public class SixtyEightK {
 
     public Memory memory;
     private Instruction mCurrentInst = null;
+    private SixtyEightKListener mListener;
+
+    private volatile Thread mBackgroundThread;
+    private boolean breakPoint;
 
     public SixtyEightK(Memory aMem) {
         memory = aMem;
     }
 
-    public void run() {
+    public boolean isRunning() {
+        return mBackgroundThread != null;
+    }
+
+    public void runSync() {
         while (memory.get((int)getPC()) != 0) {
             tick();
+        }
+    }
+
+    public void run() {
+        mBackgroundThread = new Thread() {
+            public void run() {
+                while (memory.get((int)getPC()) != 0) {
+                    if (breakPoint) {
+                        try {
+                            wait();
+                        } catch (Exception e) {
+
+                        }
+                    }
+                    tick();
+                    try { Thread.sleep(1000); } catch(Exception e){}
+                }
+            }
+        };
+        mBackgroundThread.start();
+    }
+
+    public void step() {
+        breakPoint = true;
+
+        if (!isRunning()) {
+            run();
+        }
+
+        synchronized (mBackgroundThread) {
+            mBackgroundThread.notify();
+        }
+    }
+
+    public void resume() {
+        breakPoint = false;
+        synchronized (mBackgroundThread) {
+            mBackgroundThread.notify();
+        }
+    }
+
+    public void stop() {
+        if (mBackgroundThread != null) {
+            mBackgroundThread.interrupt();
         }
     }
 
@@ -50,9 +102,22 @@ public class SixtyEightK {
 
             mCurrentInst.call();
             mPC += 2;
+
+            if (mListener != null) {
+                mListener.onTick();
+            }
         }
         mCurrentInst.cost--;
     }
+
+    public SixtyEightKListener getListener() {
+        return mListener;
+    }
+    
+    public void setListener(final SixtyEightKListener aListener) {
+        mListener = aListener;
+    }
+    
 
     public long getPC() {
         return mPC;
@@ -224,5 +289,9 @@ public class SixtyEightK {
         builder.append("++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 
         return builder.toString();
+    }
+
+    public static interface SixtyEightKListener {
+        public void onTick();
     }
 }

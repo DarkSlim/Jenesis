@@ -51,7 +51,7 @@ public class MoveTest
     {
         cpu.setDx(1, 0xffcc);
         mem.put(0x2601);
-        cpu.run();
+        cpu.runSync();
 
         assertEquals("D3 did not have the proper value.", cpu.getDx(3), 0xffcc);
     }
@@ -60,7 +60,7 @@ public class MoveTest
     {
         cpu.setAx(1, 0xffcc);
         mem.put(0x3649);
-        cpu.run();
+        cpu.runSync();
 
         assertEquals("A3 did not have the proper value.", cpu.getAx(3), 0xffcc);
     }
@@ -69,7 +69,7 @@ public class MoveTest
     {
         cpu.setDx(1, 0xffcc);
         mem.put(0x3641);
-        cpu.run();
+        cpu.runSync();
 
         assertEquals("A3 did not have the proper value.", cpu.getAx(3), 0xffcc);
     }
@@ -78,7 +78,7 @@ public class MoveTest
     {
         cpu.setAx(1, 0xffcc);
         mem.put(0x3609);
-        cpu.run();
+        cpu.runSync();
 
         assertEquals("D3 did not have the proper value.", cpu.getDx(3), 0xffcc);
     }
@@ -89,7 +89,7 @@ public class MoveTest
         mem.put(0x0100);
         mem.put(0x38C9);
 
-        cpu.run();
+        cpu.runSync();
         System.out.println(cpu.toString());
 
         assertEquals("A4 did not have the proper value.", 0x102, cpu.getAx(4));
@@ -103,7 +103,7 @@ public class MoveTest
 
         mem.put(0x3909);
 
-        cpu.run();
+        cpu.runSync();
         System.out.println(cpu.toString());
 
         assertEquals("A4 did not have the proper value.", 0xfe, cpu.getAx(4));
@@ -125,7 +125,7 @@ public class MoveTest
         mem.put(0x0003);
         mem.put(0x0002);
 
-        cpu.run();
+        cpu.runSync();
         System.out.println(cpu.toString());
 
         assertEquals("Memory did not have the proper value.", 0xffcc, mem.get(0x103));
@@ -149,7 +149,7 @@ public class MoveTest
         mem.put(0xB002);
         mem.put(0x0002);
 
-        cpu.run();
+        cpu.runSync();
         System.out.println(cpu.toString());
 
         assertEquals("Memory[0x10c] did not have the proper value.", 0xffcc, mem.get(0x10e));

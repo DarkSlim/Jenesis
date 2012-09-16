@@ -3,6 +3,11 @@ package com.wmbest.jenesis;
 import com.wmbest.jenesis.m68k.*;
 import com.wmbest.jenesis.memory.*;
 
+import org.eclipse.swt.*;
+import org.eclipse.swt.layout.*;
+import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.graphics.*;
+
 import jlibs.core.lang.Ansi;
 
 public class Main {
@@ -10,7 +15,12 @@ public class Main {
     private static Memory mMem = new Memory();
     private static SixtyEightK mCPU;
 
+    private Label mCPUData;
+
     public static void main( String[] args ) {
+
+        mCPU = new SixtyEightK(mMem);
+
         mMem.put(0x367C);
         mMem.put(0x0063);
         mMem.put(0x384B);
@@ -27,11 +37,7 @@ public class Main {
         mMem.put(0x0100);
         mMem.put(0x38C9);
 
-
-        mCPU = new SixtyEightK(mMem);
-        mCPU.run();
-
-        Ansi ansi = new Ansi(Ansi.Attribute.NORMAL, Ansi.Color.GREEN, Ansi.Color.BLACK);
-        ansi.out(mCPU.toString());
+        Debugger debug = new Debugger(mCPU, mMem);
+        debug.show();
     }
 }

@@ -9,6 +9,10 @@
   <url>http://maven.apache.org</url>
   <repositories>
     <repository>
+      <id>swt-repo</id>
+      <url>https://swt-repo.googlecode.com/svn/repo/</url>
+    </repository>
+    <repository>
         <id>jlibs-repository</id>
         <name>JLibs Repository</name>
         <url>http://dl.dropbox.com/u/326301/repository</url>
@@ -55,4 +59,29 @@
         <scope>compile</scope>
     </dependency> 
   </dependencies>
+  <profiles>
+    <profile>
+        <activation>
+          <activeByDefault>true</activeByDefault>
+        </activation>
+        <id>osx</id>
+        <dependencies>
+          <dependency>
+            <groupId>org.eclipse.swt</groupId>
+            <artifactId>org.eclipse.swt.cocoa.macosx.x86_64</artifactId>
+            <version>3.7.2</version>
+          </dependency>
+        </dependencies>
+    </profile>
+    <profile>
+        <id>linux</id>
+        <dependencies>
+          <dependency>
+            <groupId>org.eclipse.swt</groupId>
+            <artifactId>org.eclipse.swt.gtk.linux.x86_64</artifactId>
+            <version>3.7.2</version>
+          </dependency>
+        </dependencies>
+    </profile>
+  </profiles>
 </project>
