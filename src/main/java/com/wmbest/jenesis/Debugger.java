@@ -4,6 +4,8 @@ import com.wmbest.jenesis.m68k.*;
 import com.wmbest.jenesis.memory.*;
 
 import org.eclipse.swt.*;
+import org.eclipse.swt.custom.*;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.graphics.*;
@@ -59,11 +61,69 @@ public class Debugger {
         table.setLinesVisible(true);
         table.setLayoutData(new RowData(800, 400));
 
+        setupMenuBar(shell);
         setupExpandBar(bar);
-        setupMemoryTable(table);
+        BusyIndicator.showWhile(display, memoryRunnable);
 
         shell.pack();
         shell.open();
+    }
+
+    private void setupMenuBar(Shell shell) {
+        Menu menuBar = new Menu(shell, SWT.BAR);
+        MenuItem fileMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
+        fileMenuHeader.setText("&File");
+
+        Menu fileMenu = new Menu(shell, SWT.DROP_DOWN);
+        fileMenuHeader.setMenu(fileMenu);
+
+        MenuItem loadROM = new MenuItem(fileMenu, SWT.PUSH);
+        loadROM.setText("&Load");
+        loadROM.addSelectionListener(new SelectionListener() {
+            public void widgetSelected(SelectionEvent event) {
+                showFilePicker();
+            }
+
+            public void widgetDefaultSelected(SelectionEvent event) {
+                showFilePicker();
+            }
+        });
+
+        MenuItem showDis = new MenuItem(fileMenu, SWT.PUSH);
+        showDis.setText("Disassemble");
+
+        showDis.addSelectionListener(new SelectionListener() {
+            public void widgetSelected(SelectionEvent event) {
+                showDisassembler();
+            }
+
+            public void widgetDefaultSelected(SelectionEvent event) {
+                showDisassembler();
+            }
+        });
+
+        shell.setMenuBar(menuBar);
+    }
+
+    private void showFilePicker() {
+        FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+        dialog.setFilterNames(new String[] { "Bin Files", "All Files (*.*)" });
+        dialog.setFilterExtensions(new String[] { "*.bin", "*.*" });
+
+        String file = dialog.open();
+        if (file != null) {
+            try {
+                mem.loadFromFile(file);
+                table.removeAll();
+                BusyIndicator.showWhile(display, memoryRunnable);
+            } catch (Exception e) {
+                // Alert HERE
+            }
+        }
+    }
+
+    private void showDisassembler() {
+        new Disassembler(mem);
     }
     
     private void setupExpandBar(ExpandBar bar) {
@@ -127,31 +187,41 @@ public class Debugger {
         cpu.setExpanded(true);
     }
 
-    private void setupMemoryTable(final Table table) {
-        table.setRedraw(false);
-
-        for (int i=0; i < 3; i++) {
-            TableColumn col = new TableColumn(table, SWT.NONE);
-            col.setWidth(400/3);
-        }
-
-        for (long i = 0; i < 0xffff; i = i + 2) {
-            final int value = mem.get((int) i);
-            final int index = (int) i;
-
-            Display.getDefault().asyncExec(new Runnable() {
+    Runnable memoryRunnable = new Runnable() {
+        public void run() {
+            new Thread() {
                 public void run() {
-                    if (table.isDisposed()) return;
-                    TableItem instRow = new TableItem(table, SWT.NONE);
-                    instRow.setText(0, "0x" + Integer.toHexString(index));
-                    instRow.setText(1, "0x" + Integer.toHexString(value));
-                    instRow.setText(2, "0b" + Integer.toBinaryString(value));
+                    setupMemoryTable(table);
+                }
+            }.start();
+        }
+    };
 
-                    if (index == 0xfffe) {
-                        table.setRedraw(true);
+    private void setupMemoryTable(final Table table) {
+        Display.getDefault().asyncExec(new Runnable() {
+            public void run() {
+                table.setRedraw(false);
+
+                if (table.getColumns().length == 0) {
+                    for (int i=0; i < 3; i++) {
+                        TableColumn col = new TableColumn(table, SWT.NONE);
+                        col.setWidth(800/3);
                     }
                 }
-            });
-        }
+
+                for (long i = 0; i < 0xffff; i = i + 2) {
+                    if (table.isDisposed()) return;
+
+                    int value = mem.get((int) i);
+
+                    TableItem instRow = new TableItem(table, SWT.NONE);
+                    instRow.setText(0, "0x" + Integer.toHexString((int)i));
+                    instRow.setText(1, "0x" + Integer.toHexString(value));
+                    instRow.setText(2, "0b" + Integer.toBinaryString(value));
+                }
+
+                table.setRedraw(true);
+            }
+        });
     }
 }

@@ -42,9 +42,4 @@ public class And extends TwoOpInstruction {
         Ansi ansi = new Ansi(Ansi.Attribute.NORMAL, Ansi.Color.CYAN, Ansi.Color.BLACK);
         ansi.outln(toString());
     }
-
-    @Override
-    public String disassemble() {
-        return "AND";
-    }
 }

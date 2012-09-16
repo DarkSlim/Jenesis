@@ -78,9 +78,4 @@ public class Add extends TwoOpInstruction {
         cpu.setAx(operands[0].reg, cpu.getAx(operands[0].reg) - sizeToByte(size));
         cpu.setAx(operands[1].reg, cpu.getAx(operands[1].reg) - sizeToByte(size));
     }
-
-    @Override
-    public String disassemble() {
-        return "ADD";
-    }
 }

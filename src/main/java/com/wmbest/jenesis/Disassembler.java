@@ -24,7 +24,7 @@ public class Disassembler {
     }
 
     public void setup() {
-        display = new Display();
+        display = Display.getDefault();
         shell = new Shell(display);
 
         shell.setLayout(new GridLayout());
@@ -39,17 +39,25 @@ public class Disassembler {
         cpu.setPC(0x0);
 
         table.setRedraw(false);
-        while (mem.get((int) cpu.getPC()) != 0x0) {
+
+        TableColumn col0 = new TableColumn(table, SWT.NONE);
+        col0.setWidth(50);
+        TableColumn col1 = new TableColumn(table, SWT.NONE);
+        col1.setWidth(500);
+
+        while ((int) cpu.getPC() < 0xffff) {
             try {
                 int value =  mem.get((int)cpu.getPC());
 
                 Instruction currentInst = Instruction.getInstruction(cpu,value);
 
                 TableItem instRow = new TableItem(table, SWT.NONE);
-                instRow.setText(0, currentInst.disassemble());
+                instRow.setText(0, "0x" + Long.toHexString(cpu.getPC()));
+                instRow.setText(1, currentInst.disassemble());
             } catch (Exception e) {
                 TableItem instRow = new TableItem(table, SWT.NONE);
-                instRow.setText(0, "Unsupported opcode");
+                instRow.setText(0, "0x" + Long.toHexString(cpu.getPC()));
+                instRow.setText(1, "Unsupported opcode");
             } finally {
                 cpu.setPC(cpu.getPC() + 2);
             }

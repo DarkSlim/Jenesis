@@ -1,6 +1,7 @@
 package com.wmbest.jenesis.memory;
 
 import java.nio.ByteBuffer;
+import java.io.*;
 
 public class Memory { 
     
@@ -14,7 +15,21 @@ public class Memory {
     public void setListener(final MemoryChangeListener aListener) {
         mListener = aListener;
     }
-    
+
+    public void loadFromFile(final String path) throws FileNotFoundException {
+        FileInputStream is = new FileInputStream(path);
+        DataInputStream data = new DataInputStream(is);
+
+        buffer.clear();
+        
+        try {
+            while (true) {
+                put(data.readChar());
+            }
+        } catch (Exception e) {
+            // DONE READING
+        }
+    }
 
     public synchronized int get(int index) {
         return (int) buffer.getChar(index);

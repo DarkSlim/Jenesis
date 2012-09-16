@@ -17,6 +17,7 @@ public class OrI extends ImmediateInstruction {
     public void setup(int value) {
         super.setup(value);
 
+        name = "ORI";
         size = getSize();
 
         for( int i = 0; i < operands.length; ++i) {
