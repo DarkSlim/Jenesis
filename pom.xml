@@ -74,14 +74,11 @@
         </dependencies>
     </profile>
     <profile>
-        <activation>
-          <activeByDefault>true</activeByDefault>
-        </activation>
         <id>osx_x86</id>
         <dependencies>
           <dependency>
             <groupId>org.eclipse.swt</groupId>
-            <artifactId>org.eclipse.swt.cocoa.macosx.x86</artifactId>
+            <artifactId>org.eclipse.swt.cocoa.macosx</artifactId>
             <version>3.7.2</version>
           </dependency>
         </dependencies>
