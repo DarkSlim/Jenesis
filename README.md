@@ -34,4 +34,11 @@ Mac OS X x64 is the default profile but can also be targeted with the ` -P mac `
 
 #### Running the JAR
 
+On Non-Mac platforms
+
         java -jar target/Jenesis-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+On Mac platforms you must force the jar onto the main thread
+
+        java -jar target/Jenesis-1.0-SNAPSHOT-jar-with-dependencies.jar -XstartOnFirstThread
+
