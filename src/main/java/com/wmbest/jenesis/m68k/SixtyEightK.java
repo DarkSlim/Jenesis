@@ -40,6 +40,15 @@ public class SixtyEightK {
         memory = aMem;
     }
 
+    public void setupProgram() {
+        mSSP = (((long) memory.get(0x0)) << 16) | memory.get(0x2);
+        mPC = (((long) memory.get(0x4)) << 16) | memory.get(0x6);
+
+        if (mListener != null) {
+            mListener.onTick();
+        }
+    }
+
     public boolean isRunning() {
         return mBackgroundThread != null;
     }
@@ -198,11 +207,43 @@ public class SixtyEightK {
         return ((mSR >> 4) & 0x1) == 1;
     }
 
+    public void setC(boolean value) {
+        if (value) {
+            mSR |= C_MASK;
+        } else {
+            mSR &= ~C_MASK;
+        }
+    }
+
+    public void setV(boolean value) {
+        if (value) {
+            mSR |= V_MASK;
+        } else {
+            mSR &= ~V_MASK;
+        }
+    }
+
     public void setZ(boolean value) {
         if (value) {
             mSR |= Z_MASK;
         } else {
             mSR &= ~Z_MASK;
+        }
+    }
+
+    public void setN(boolean value) {
+        if (value) {
+            mSR |= N_MASK;
+        } else {
+            mSR &= ~N_MASK;
+        }
+    }
+
+    public void setX(boolean value) {
+        if (value) {
+            mSR |= X_MASK;
+        } else {
+            mSR &= ~X_MASK;
         }
     }
 

@@ -58,9 +58,7 @@ public abstract class SystemInstruction extends SEAInstruction {
                 /** \todo SWAP (size 0b01, ea MODE 0b000) */
                 /** \todo PEA (size 0b01) */
             case 0xa:
-                // ILLEGAL ALREADY TAKEN CARE OF
-                /** \todo TAS (size 0b11) */
-                /** \todo TST (size 0b00 ~ 0b10) */
+                return new Tst();
             case 0xc:
                 /** \todo MOVEM (size 0b10 ~ 0b11) */
             case 0xe:

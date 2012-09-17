@@ -114,6 +114,7 @@ public class Debugger {
         if (file != null) {
             try {
                 mem.loadFromFile(file);
+                cpu.setupProgram();
                 table.removeAll();
                 BusyIndicator.showWhile(display, memoryRunnable);
             } catch (Exception e) {

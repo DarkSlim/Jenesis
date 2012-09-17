@@ -107,6 +107,7 @@ public abstract class Instruction {
                 break;
             case 4:
                 result = SystemInstruction.getInstruction(value);
+                break;
             case 5:
             case 6:
             case 7:
