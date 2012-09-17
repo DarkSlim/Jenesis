@@ -28,10 +28,4 @@ public class Move extends TwoOpInstruction {
 
         operands[1].setVal(operands[0].getVal());
     }
-
-    @Override
-    public String disassemble() {
-        //return "MOVE " + firstOp() + ", " + secondOp() + "\n";
-        return "MOVE";
-    }
 }

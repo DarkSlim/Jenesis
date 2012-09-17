@@ -58,4 +58,8 @@ public abstract class SEAInstruction extends Instruction {
 
         return output.toString();
     }
+
+    public String disassemble() {
+        return name + "\t" + operands[0].toString();
+    }
 }

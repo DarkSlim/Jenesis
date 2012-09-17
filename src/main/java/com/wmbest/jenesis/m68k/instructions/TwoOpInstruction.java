@@ -26,4 +26,8 @@ public abstract class TwoOpInstruction extends SEAInstruction {
         builder.append("Size: " + SIZE_STRING[size] + "\n");
         return builder.toString();
     }
+
+    public String disassemble() {
+        return name + "\t" + operands[0].toString() + ", " + operands[1].toString();
+    }
 }

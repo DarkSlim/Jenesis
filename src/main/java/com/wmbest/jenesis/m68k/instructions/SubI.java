@@ -46,9 +46,4 @@ public class SubI extends ImmediateInstruction {
             operands[0].setVal(operands[0].getVal() - operands[1].immediateLong());
         }
     }
-
-    @Override
-    public String disassemble() {
-        return "SUBI";
-    }
 }

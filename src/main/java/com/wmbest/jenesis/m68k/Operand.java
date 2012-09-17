@@ -40,6 +40,29 @@ public class Operand {
         }
     }
 
+    public String toString() {
+        switch(mode) {
+            case 0:
+                return "D" + reg;
+            case 1:
+                return "A" + reg;
+            case 2:
+                return "(A" + reg + ")";
+            case 3:
+                return "(A" + reg + ")+";
+            case 4:
+                return "-(A" + reg + ")";
+            case 5:
+                return "(" + lowerWord + ",A" + reg + ")";
+            case 6:
+                return "MODE SIX";
+            case 7:
+                return "MODE SEVEN";
+            default:
+                return "INVALID";
+        }
+    }
+
     public long getVal() {
         switch(mode) {
             case 0:
