@@ -57,9 +57,10 @@ public class Debugger {
         ExpandBar bar = new ExpandBar(shell, SWT.V_SCROLL);
         bar.setLayoutData(new RowData(400, 400));
 
-        table = new Table(shell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+        table = new Table(shell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION | SWT.VIRTUAL);
         table.setLinesVisible(true);
         table.setLayoutData(new RowData(800, 400));
+        table.setItemCount(0xfffff);
 
         setupMenuBar(shell);
         setupExpandBar(bar);
@@ -115,8 +116,8 @@ public class Debugger {
             try {
                 mem.loadFromFile(file);
                 cpu.setupProgram();
-                table.removeAll();
                 BusyIndicator.showWhile(display, memoryRunnable);
+                table.clearAll();
             } catch (Exception e) {
                 // Alert HERE
             }
@@ -190,38 +191,28 @@ public class Debugger {
 
     Runnable memoryRunnable = new Runnable() {
         public void run() {
-            new Thread() {
-                public void run() {
-                    setupMemoryTable(table);
-                }
-            }.start();
+            setupMemoryTable(table);
         }
     };
 
     private void setupMemoryTable(final Table table) {
-        Display.getDefault().asyncExec(new Runnable() {
-            public void run() {
-                table.setRedraw(false);
+        if (table.getColumns().length == 0) {
+            for (int i=0; i < 3; i++) {
+                TableColumn col = new TableColumn(table, SWT.NONE);
+                col.setWidth(800/3);
+            }
+        }
 
-                if (table.getColumns().length == 0) {
-                    for (int i=0; i < 3; i++) {
-                        TableColumn col = new TableColumn(table, SWT.NONE);
-                        col.setWidth(800/3);
-                    }
-                }
+        table.addListener(SWT.SetData, new Listener() {
+            public void handleEvent(Event event) {
+                if (table.isDisposed()) return;
 
-                for (long i = 0; i < 0xffff; i = i + 2) {
-                    if (table.isDisposed()) return;
+                TableItem instRow = (TableItem) event.item;
+                int value = mem.get((int) event.index * 2);
 
-                    int value = mem.get((int) i);
-
-                    TableItem instRow = new TableItem(table, SWT.NONE);
-                    instRow.setText(0, "0x" + Integer.toHexString((int)i));
-                    instRow.setText(1, "0x" + Integer.toHexString(value));
-                    instRow.setText(2, "0b" + Integer.toBinaryString(value));
-                }
-
-                table.setRedraw(true);
+                instRow.setText(0, "0x" + Integer.toHexString((int)event.index * 2));
+                instRow.setText(1, "0x" + Integer.toHexString(value));
+                instRow.setText(2, "0b" + Integer.toBinaryString(value));
             }
         });
     }
