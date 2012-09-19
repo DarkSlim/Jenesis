@@ -41,7 +41,7 @@ public abstract class Instruction {
         return (value & mask) == mask;
     }
 
-    private void preHandle() {
+    public void preHandle() {
         for (int i = 0; i < operands.length; i++) {
             if (operands[i] != null)
                 operands[i].preHandle();

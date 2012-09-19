@@ -20,9 +20,9 @@ public abstract class TwoOpInstruction extends SEAInstruction {
     }
 
     public String toString() {
-        StringBuilder builder = new StringBuilder(super.toString());
-        builder.append("Second Type: 0b" + Integer.toBinaryString(operands[1].mode));
-        builder.append("Second Register: 0b" + Integer.toBinaryString(operands[1].reg));
+        StringBuilder builder = new StringBuilder(super.toString()+ "\n");
+        builder.append("Second Type: 0b" + Integer.toBinaryString(operands[1].mode)+ "\n");
+        builder.append("Second Register: 0b" + Integer.toBinaryString(operands[1].reg)+ "\n");
         builder.append("Size: " + SIZE_STRING[size] + "\n");
         return builder.toString();
     }

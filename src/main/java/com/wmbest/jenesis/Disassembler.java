@@ -51,6 +51,8 @@ public class Disassembler {
 
                 Instruction currentInst = Instruction.getInstruction(cpu,value);
 
+                currentInst.preHandle();
+
                 TableItem instRow = new TableItem(table, SWT.NONE);
                 instRow.setText(0, "0x" + Long.toHexString(cpu.getPC()));
                 instRow.setText(1, currentInst.disassemble());
@@ -59,7 +61,7 @@ public class Disassembler {
                 instRow.setText(0, "0x" + Long.toHexString(cpu.getPC()));
                 instRow.setText(1, "Unsupported opcode");
             } finally {
-                cpu.setPC(cpu.getPC() + 2);
+                cpu.incrPC();
             }
         }
         table.setRedraw(true);

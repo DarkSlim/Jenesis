@@ -4,6 +4,7 @@ import com.wmbest.jenesis.m68k.*;
 import com.wmbest.jenesis.util.*;
 
 public abstract class ImmediateInstruction extends TwoOpInstruction {
+    protected long data;
     
     public static ImmediateInstruction getInstruction(int value) {
 
@@ -24,7 +25,31 @@ public abstract class ImmediateInstruction extends TwoOpInstruction {
             case 0xc:
                 /** \todo CMP */
         }
+        return null;
+    }
 
-        throw new UnsupportedOpcodeException(value);
+    @Override
+    public void setup(int value) {
+        super.setup(value);
+
+        operands[1].disable = true;
+    }
+
+    @Override
+    public void preHandle() {
+        super.preHandle();
+
+        if (size == BYTE) {
+            data = operands[0].immediateByte();
+        } else if (size == WORD) {
+            data = operands[0].immediateWord();
+        } else {
+            data = operands[0].immediateLong();
+        }
+    }
+
+    @Override
+    public String disassemble() {
+        return name + "\t#$" + Long.toHexString(data) + ", " + operands[0].toString();
     }
 }

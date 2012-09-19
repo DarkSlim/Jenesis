@@ -1,6 +1,5 @@
 package com.wmbest.jenesis.m68k.instructions;
 
-import jlibs.core.lang.Ansi;
 import com.wmbest.jenesis.m68k.*;
 
 public class Tst extends SystemInstruction {

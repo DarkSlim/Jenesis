@@ -39,6 +39,20 @@ public class Debugger {
         setup();
     }
 
+    private void setupMemListener() {
+        mem.setListener(new Memory.MemoryChangeListener() {
+            public void onMemoryChanged(final int index, final int size, final long value) {
+                Display.getDefault().asyncExec(new Runnable() {
+                    public void run() {
+                        int i = index / 2;
+                        table.clear(i);
+                        table.setSelection(i, i + size - 1);
+                    }
+                });
+            }
+        });
+    }
+
     public void show() {
         while (!shell.isDisposed()) {
             if (!display.readAndDispatch())
@@ -60,7 +74,7 @@ public class Debugger {
         table = new Table(shell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION | SWT.VIRTUAL);
         table.setLinesVisible(true);
         table.setLayoutData(new RowData(800, 400));
-        table.setItemCount(0xfffff);
+        table.setItemCount(0xffffff);
 
         setupMenuBar(shell);
         setupExpandBar(bar);
@@ -114,7 +128,9 @@ public class Debugger {
         String file = dialog.open();
         if (file != null) {
             try {
+                mem.setListener(null);
                 mem.loadFromFile(file);
+                setupMemListener();
                 cpu.setupProgram();
                 BusyIndicator.showWhile(display, memoryRunnable);
                 table.clearAll();

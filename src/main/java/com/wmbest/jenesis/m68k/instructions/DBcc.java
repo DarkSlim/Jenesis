@@ -1,6 +1,5 @@
 package com.wmbest.jenesis.m68k.instructions;
 
-import jlibs.core.lang.Ansi;
 import com.wmbest.jenesis.m68k.*;
 
 public class DBcc extends QuickAndBranchInstruction {
@@ -19,9 +18,6 @@ public class DBcc extends QuickAndBranchInstruction {
 
     @Override
     public void handle() {
-        Ansi ansi = new Ansi(Ansi.Attribute.NORMAL, Ansi.Color.CYAN, Ansi.Color.BLACK);
-        ansi.outln(toString());
-
         if (!conditionCheck()) {
             long dn = cpu.getDx(operands[0].reg);
             dn--;

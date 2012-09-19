@@ -13,7 +13,7 @@ public abstract class SystemInstruction extends SEAInstruction {
             case 0x4E70:
                 /** \todo RESET */
             case 0x4E71:
-                /** \todo NOP */
+                return new Nop();
             case 0x4E72:
                 /** \todo STOP */
             case 0x4E73:
@@ -60,12 +60,19 @@ public abstract class SystemInstruction extends SEAInstruction {
             case 0xa:
                 return new Tst();
             case 0xc:
-                /** \todo MOVEM (size 0b10 ~ 0b11) */
+                return new MoveM();
             case 0xe:
                 // RESET, NOP, STOP, RTE, RTS, TRAPV, RTR Already Handled
                 // TRAP, LINK, UNLK, MOVE USP  Also taken care of already
                 /** \todo JSR (size 0b10) */
                 /** \todo JMP (size 0b11) */
+        }
+
+        int op = (value >> 6) & 0x7;
+        if (op == 0x7) {
+            return new Lea();
+        } else if (op == 0x6) {
+            /** \todo CHK */
         }
 
         throw new UnsupportedOpcodeException(value);

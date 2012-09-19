@@ -1,6 +1,5 @@
 package com.wmbest.jenesis.m68k.instructions;
 
-import jlibs.core.lang.Ansi;
 import com.wmbest.jenesis.m68k.*;
 
 public class Add extends TwoOpInstruction {
@@ -37,9 +36,6 @@ public class Add extends TwoOpInstruction {
 
     @Override
     public void handle() {
-        Ansi ansi = new Ansi(Ansi.Attribute.NORMAL, Ansi.Color.CYAN, Ansi.Color.BLACK);
-        ansi.outln(toString());
-
         if (operands[1].mode > 4 && operands[1].mode < 7) {
             if (operands[0].mode == 0) {
                 addDx(true);

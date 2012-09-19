@@ -1,6 +1,5 @@
 package com.wmbest.jenesis.m68k.instructions;
 
-import jlibs.core.lang.Ansi;
 import com.wmbest.jenesis.m68k.*;
 
 public class AddI extends ImmediateInstruction {
@@ -21,10 +20,13 @@ public class AddI extends ImmediateInstruction {
     private int getSize() {
         switch (operands[1].mode) {
             case 0:
+                name += ".B";
                 return BYTE;
             case 1:
+                name += ".W";
                 return WORD;
             case 2:
+                name += ".L";
                 return LONG;
         }
         return -1;
@@ -32,15 +34,6 @@ public class AddI extends ImmediateInstruction {
 
     @Override
     public void handle() {
-        Ansi ansi = new Ansi(Ansi.Attribute.NORMAL, Ansi.Color.CYAN, Ansi.Color.BLACK);
-        ansi.outln(toString());
-
-        if (size == BYTE) {
-            operands[0].setVal(operands[0].getVal() + operands[1].immediateByte());
-        } else if (size == WORD) {
-            operands[0].setVal(operands[0].getVal() + operands[1].immediateWord());
-        } else {
-            operands[0].setVal(operands[0].getVal() + operands[1].immediateLong());
-        }
+        operands[0].setVal(operands[0].getVal() + data);
     }
 }

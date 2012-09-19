@@ -71,7 +71,7 @@ public class SixtyEightK {
                             }
                         }
                         tick();
-                        try { Thread.sleep(1000); } catch(Exception e){}
+                        //try { Thread.sleep(1000); } catch(Exception e){}
                     }
                 }
             }
@@ -105,17 +105,26 @@ public class SixtyEightK {
     }
 
     public void tick() {
-        if (mCurrentInst == null || mCurrentInst.cost == 0) {
-            mCurrentInst = Instruction.getInstruction(this, memory.get((int)mPC));
+        try {
+            if (mCurrentInst == null || mCurrentInst.cost == 0) {
+                mCurrentInst = Instruction.getInstruction(this, memory.get((int)mPC));
 
-            mCurrentInst.call();
-            mPC += 2;
+                mCurrentInst.call();
+                mPC += 2;
 
-            if (mListener != null) {
-                mListener.onTick();
+                if (mListener != null) {
+                    try { Thread.sleep(1000); } catch (Exception e) {}
+                    mListener.onTick();
+                }
             }
+            mCurrentInst.cost--;
+        } catch (Exception e) {
+            
+            System.out.println(toString());
+            System.out.println(mCurrentInst.toString());
+            e.printStackTrace();
+            breakPoint = true;
         }
-        mCurrentInst.cost--;
     }
 
     public SixtyEightKListener getListener() {

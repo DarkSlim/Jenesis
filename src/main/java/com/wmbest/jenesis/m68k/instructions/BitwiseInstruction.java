@@ -15,8 +15,9 @@ public abstract class BitwiseInstruction extends SEAInstruction {
             /** \todo MOVEP */
         }
 
-        switch(cmd & 0xff) {
+        switch(cmd) {
             case 0x0:
+            case 0x4:
                 return new Btst();
             case 0x1:
                 return new Bchg();

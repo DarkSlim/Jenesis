@@ -1,6 +1,5 @@
 package com.wmbest.jenesis.m68k.instructions;
 
-import jlibs.core.lang.Ansi;
 import com.wmbest.jenesis.m68k.*;
 
 public class Bcc extends QuickAndBranchInstruction {
@@ -11,22 +10,23 @@ public class Bcc extends QuickAndBranchInstruction {
     public void setup(int value) {
         super.setup(value);
         size = BYTE;
-        condition = (value >> 8) % 0xf;
-        displacement = value & 0xff;
+        condition = (value >> 8) & 0xf;
+        displacement = (byte) (value & 0xff);
 
-        if (displacement == 0x00) {
+        operands[0].disable = true;
+        operands[1].disable = true;
+
+        if (displacement == (byte) 0x00) {
             displacement = operands[0].immediateWord();
-        } else if (displacement == 0xff) {
+        } else if (displacement == (byte) 0xff) {
             // This will  only happen in 68020, 30, and 40
             displacement = operands[0].immediateLong();
         }
+        displacement += 2;
     }
 
     @Override
     public void handle() {
-        Ansi ansi = new Ansi(Ansi.Attribute.NORMAL, Ansi.Color.CYAN, Ansi.Color.BLACK);
-        ansi.outln(toString());
-
         if (conditionCheck()) {
             cpu.setPC(cpu.getPC() + displacement);
         }
@@ -64,5 +64,56 @@ public class Bcc extends QuickAndBranchInstruction {
                 return cpu.le();
         }
         return false;
+    }
+
+    @Override
+    public String disassemble() {
+        name = "Bcc";
+        switch (condition) {
+            case 2:
+                name = "BHI";
+                break;
+            case 3:
+                name = "BLS";
+                break;
+            case 4:
+                name = "BCC";
+                break;
+            case 5:
+                name = "BCS";
+                break;
+            case 6:
+                name = "BNE";
+                break;
+            case 7:
+                name = "BEQ";
+                break;
+            case 8:
+                name = "BVC";
+                break;
+            case 9:
+                name = "BVS";
+                break;
+            case 10:
+                name = "BPL";
+                break;
+            case 11:
+                name = "BMI";
+                break;
+            case 12:
+                name = "BGE";
+                break;
+            case 13:
+                name = "BLT";
+                break;
+            case 14:
+                name = "BGT";
+                break;
+            case 15:
+                name = "BLE";
+                break;
+        }
+
+        return name + "\t" + Long.toHexString(cpu.getPC() + displacement);
     }
 }

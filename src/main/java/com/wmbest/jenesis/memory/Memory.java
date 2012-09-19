@@ -32,15 +32,49 @@ public class Memory {
     }
 
     public synchronized int get(int index) {
-        return (int) buffer.getChar(index);
+        return getWord(index);
     }
 
     public synchronized void set(int index, int val) {
-        System.out.println("MEMORY WRITE[0x" + Integer.toHexString(index) + "]: 0x" + Integer.toHexString(val));
+        setWord(index, val);
+    }
+
+    public synchronized int getByte(int index) {
+        return (int) buffer.get(index);
+    }
+
+    public synchronized void setByte(int index, int val) {
+        System.out.println("MEMORY WRITE.B[0x" + Integer.toHexString(index) + "]: 0x" + Integer.toHexString(val));
+        buffer.put(index, (byte)val);
+
+        if (mListener != null) {
+            mListener.onMemoryChanged(index, 1, val);
+        }
+    }
+
+    public synchronized int getWord(int index) {
+        return (int) buffer.getChar(index);
+    }
+
+    public synchronized void setWord(int index, int val) {
+        System.out.println("MEMORY WRITE.W[0x" + Integer.toHexString(index) + "]: 0x" + Integer.toHexString(val));
         buffer.putChar(index, (char)val);
 
         if (mListener != null) {
-            mListener.onMemoryChanged(index, val);
+            mListener.onMemoryChanged(index, 2, val);
+        }
+    }
+
+    public synchronized int getLong(int index) {
+        return (int) buffer.getChar(index);
+    }
+
+    public synchronized void setLong(int index, long val) {
+        System.out.println("MEMORY WRITE.L[0x" + Integer.toHexString(index) + "]: 0x" + Long.toHexString(val));
+        buffer.putInt(index, (int)val);
+
+        if (mListener != null) {
+            mListener.onMemoryChanged(index, 4, val);
         }
     }
 
@@ -48,7 +82,7 @@ public class Memory {
         buffer.putChar((char)val);
 
         if (mListener != null) {
-            mListener.onMemoryChanged(buffer.position(), val);
+            mListener.onMemoryChanged(buffer.position(), 2, val);
         }
     }
 
@@ -66,6 +100,6 @@ public class Memory {
     }
 
     public static interface MemoryChangeListener {
-        public void onMemoryChanged(int index, int val);
+        public void onMemoryChanged(int index, int size, long val);
     }
 }

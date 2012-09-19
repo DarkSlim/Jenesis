@@ -6,7 +6,7 @@ import com.wmbest.jenesis.m68k.instructions.Instruction.UnsupportedOpcodeExcepti
 public class Operand {
     public int mode;
     public int reg;
-    public int size;
+    public int size = Instruction.WORD;
     public SixtyEightK cpu;
 
     // Bytes for direct and indexed modes... 
@@ -14,29 +14,38 @@ public class Operand {
     public int upperWord;
     public int lowerWord;
 
-    public void preHandle() {
+    public boolean disable;
 
-        switch(mode) {
-            case 4:
-                if (reg == 7) {
-                    size = 0x3;    
-                }
-                cpu.setAx(reg, cpu.getAx(reg) - Instruction.sizeToByte(size));
-                break;
-            case 5:
-            case 6: //TODO There are other modes for other 680x0s but im ignoring them.
-            case 7:
-                lowerWord = immediateWord();
-                break;
+    public void preHandle() {
+        if (!disable) {
+            switch(mode) {
+                case 4:
+                    if (reg == 7) {
+                        size = 0x3;    
+                    }
+                    cpu.setAx(reg, cpu.getAx(reg) - Instruction.sizeToByte(size));
+                    break;
+                case 5:
+                case 6: //TODO There are other modes for other 680x0s but im ignoring them.
+                case 7:
+                    lowerWord = immediateWord();
+                    if (size == Instruction.LONG || reg == 1) {
+                        upperWord = lowerWord;
+                        lowerWord = immediateWord();
+                    }
+                    break;
+            }
         }
     }
 
     public void postHandle() {
-        if (mode == 3) {
-            if (reg == 7) {
-                size = 0x3;    
+        if (!disable) {
+            if (mode == 3) {
+                if (reg == 7) {
+                    size = 0x3;    
+                }
+                cpu.setAx(reg, cpu.getAx(reg) + Instruction.sizeToByte(size));
             }
-            cpu.setAx(reg, cpu.getAx(reg) + Instruction.sizeToByte(size));
         }
     }
 
@@ -118,9 +127,14 @@ public class Operand {
             case 0:
                 return getIndirect(lowerWord);
             case 1:
-                return ((long)getIndirect(lowerWord) << 0x16) + getIndirect(lowerWord + 2);
+                long val = ((long)upperWord << 16) + lowerWord;
+                return getIndirect((int) val);
             case 4:
-                return lowerWord & 0xffff;
+                if (size == Instruction.LONG) {
+                    return ((long)upperWord << 16) + lowerWord;
+                } else {
+                    return lowerWord;
+                }
             case 2:
                 return getIndirectPCWithOffset(lowerWord);
             case 3:
@@ -134,17 +148,17 @@ public class Operand {
         switch(reg) {
             case 0:
                 setIndirect(lowerWord, val & 0xffffL);
-                break;
+                return;
             case 1:
-                setIndirect(lowerWord, (val >> 16) & 0xffffL);
-                setIndirect(lowerWord + 2, val & 0xffffL);
-                break;
+                long index = ((long)upperWord << 16) + lowerWord;
+                setIndirectLong((int) index, val);
+                return;
             case 2:
                 setIndirectPCWithOffset(lowerWord, val);
-                break;
+                return;
             case 3:
                 setIndirectPCWithOffset(getIndexedOffset(), val);
-                break;
+                return;
 
         }
         throw new UnsupportedOperandException("Invalid Operand");
@@ -201,8 +215,16 @@ public class Operand {
         return cpu.memory.get(mem);
     }
 
+    private int getIndirectLong(int mem) {
+        return cpu.memory.getLong(mem);
+    }
+
     private void setIndirect(int mem, long val) {
         cpu.memory.set(mem, (int) val);
+    }
+
+    private void setIndirectLong(int mem, long val) {
+        cpu.memory.setLong(mem, val);
     }
 
     private int getIndirectAxWithOffset(int x, int offset) {
