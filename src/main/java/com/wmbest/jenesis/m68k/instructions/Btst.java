@@ -10,12 +10,18 @@ public class Btst extends BitwiseInstruction {
     public void setup(int value) {
         super.setup(value);
         type = value >> 6;
+        if (cpu.getPC() == 0x21e) 
+            System.out.println("Type: " + type);
 
-        if (type == 0x22) {
+        name = "BTST";
+
+        if (type == 32) {
             size = BYTE;
+            name += ".B";
             bit = operands[0].immediateWord();
         } else {
             size = LONG;
+            name += ".L";
             bit = cpu.getDx(type >> 3);
         }
     }

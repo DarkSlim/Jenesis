@@ -27,12 +27,16 @@ public class Operand {
                     break;
                 case 5:
                 case 6: //TODO There are other modes for other 680x0s but im ignoring them.
+                    lowerWord = immediateWord();
+                    break;
                 case 7:
                     lowerWord = immediateWord();
                     if (size == Instruction.LONG || reg == 1) {
                         upperWord = lowerWord;
                         lowerWord = immediateWord();
                     }
+                    break;
+                default:
                     break;
             }
         }
@@ -62,7 +66,7 @@ public class Operand {
             case 4:
                 return "-(A" + reg + ")";
             case 5:
-                return "(" + lowerWord + ",A" + reg + ")";
+                return "(0x" + Long.toHexString(lowerWord) + ",A" + reg + ")";
             case 6:
                 return "MODE SIX";
             case 7:
@@ -114,6 +118,7 @@ public class Operand {
 
     private long getModeSix() {
         int offset = getIndexedOffset();
+        System.out.println("OFFSET: " + offset);
         return getIndirectAxWithOffset(reg, offset);
     }
 

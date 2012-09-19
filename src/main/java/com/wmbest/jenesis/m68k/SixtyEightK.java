@@ -71,7 +71,7 @@ public class SixtyEightK {
                             }
                         }
                         tick();
-                        //try { Thread.sleep(1000); } catch(Exception e){}
+                        try { Thread.sleep(1000); } catch (Exception e) {}
                     }
                 }
             }
@@ -113,7 +113,6 @@ public class SixtyEightK {
                 mPC += 2;
 
                 if (mListener != null) {
-                    try { Thread.sleep(1000); } catch (Exception e) {}
                     mListener.onTick();
                 }
             }

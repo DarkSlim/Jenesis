@@ -8,13 +8,29 @@ public class Move extends TwoOpInstruction {
         super.setup(value);
 
         name = "MOVE";
-        size = (0xf000 & value) >> 12;
+        int s = (0xf000 & value) >> 12;
+        size = getSize(s);
 
         for( int i = 0; i < operands.length; ++i) {
             if (operands[i] != null) {
                 operands[i].size = size;
             }
         }
+    }
+
+    private int getSize(int s) {
+        switch (s) {
+            case BYTE:
+                name += ".B";
+                return BYTE;
+            case WORD:
+                name += ".W";
+                return WORD;
+            case LONG:
+                name += ".L";
+                return LONG;
+        }
+        return -1;
     }
 
     @Override

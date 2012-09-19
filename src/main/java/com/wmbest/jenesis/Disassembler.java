@@ -46,19 +46,18 @@ public class Disassembler {
         col1.setWidth(500);
 
         while ((int) cpu.getPC() < 0xffff) {
+            TableItem instRow = new TableItem(table, SWT.NONE);
             try {
+                instRow.setText(0, "0x" + Long.toHexString(cpu.getPC()));
+
                 int value =  mem.get((int)cpu.getPC());
 
                 Instruction currentInst = Instruction.getInstruction(cpu,value);
 
                 currentInst.preHandle();
 
-                TableItem instRow = new TableItem(table, SWT.NONE);
-                instRow.setText(0, "0x" + Long.toHexString(cpu.getPC()));
                 instRow.setText(1, currentInst.disassemble());
             } catch (Exception e) {
-                TableItem instRow = new TableItem(table, SWT.NONE);
-                instRow.setText(0, "0x" + Long.toHexString(cpu.getPC()));
                 instRow.setText(1, "Unsupported opcode");
             } finally {
                 cpu.incrPC();

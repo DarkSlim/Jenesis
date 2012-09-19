@@ -23,6 +23,7 @@ public abstract class ImmediateInstruction extends TwoOpInstruction {
             case 0xa:
                 return EorI.getInstruction(value);
             case 0xc:
+                throw new UnsupportedOpcodeException(value);
                 /** \todo CMP */
         }
         return null;
