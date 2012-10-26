@@ -41,7 +41,7 @@ public class Disassembler {
         table.setRedraw(false);
 
         TableColumn col0 = new TableColumn(table, SWT.NONE);
-        col0.setWidth(50);
+        col0.setWidth(75);
         TableColumn col1 = new TableColumn(table, SWT.NONE);
         col1.setWidth(500);
 

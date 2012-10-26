@@ -1,7 +1,10 @@
 package com.wmbest.jenesis;
 
 import com.wmbest.jenesis.m68k.*;
+import com.wmbest.jenesis.m68k.instructions.Instruction;
 import com.wmbest.jenesis.memory.*;
+
+import java.io.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
@@ -117,11 +120,24 @@ public class Debugger {
             }
         });
 
+        MenuItem outputDis = new MenuItem(fileMenu, SWT.PUSH);
+        outputDis.setText("Disassemble to File");
+
+        outputDis.addSelectionListener(new SelectionListener() {
+            public void widgetSelected(SelectionEvent event) {
+                disassembleToFile();
+            }
+
+            public void widgetDefaultSelected(SelectionEvent event) {
+                disassembleToFile();
+            }
+        });
+
         shell.setMenuBar(menuBar);
     }
 
     private void showFilePicker() {
-        FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+        FileDialog dialog = new FileDialog(shell, SWT.OPEN);
         dialog.setFilterNames(new String[] { "Bin Files", "All Files (*.*)" });
         dialog.setFilterExtensions(new String[] { "*.bin", "*.*" });
 
@@ -134,6 +150,43 @@ public class Debugger {
                 cpu.setupProgram();
                 BusyIndicator.showWhile(display, memoryRunnable);
                 table.clearAll();
+            } catch (Exception e) {
+                // Alert HERE
+            }
+        }
+    }
+
+
+    private void disassembleToFile() {
+        FileDialog dialog = new FileDialog(shell, SWT.SAVE);
+        dialog.setFilterNames(new String[] { "Assembly Files" });
+        dialog.setFilterExtensions(new String[] { "*.bin.s" });
+
+        String file = dialog.open();
+        if (file != null) {
+            try {
+                SixtyEightK c = new SixtyEightK(mem);
+                cpu.setPC(0x0);
+                BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(file));
+                while ((int) cpu.getPC() < 0x3fffff) {
+
+                    String memloc = Long.toHexString(cpu.getPC());
+                    os.write("00000000".substring(memloc.length()).getBytes());
+                    os.write(memloc.getBytes());
+                    os.write("\t\t".getBytes());
+                    try {
+                        int value =  mem.get((int)cpu.getPC());
+                        Instruction currentInst = Instruction.getInstruction(cpu,value);
+                        currentInst.preHandle();
+                        os.write((currentInst.disassemble() + "\n").getBytes());
+                    } catch (Exception e) {
+                        os.write("Unsupported Opcode\n".getBytes());
+                    } finally {
+                        cpu.incrPC();
+                    }
+                }
+
+                os.close();
             } catch (Exception e) {
                 // Alert HERE
             }

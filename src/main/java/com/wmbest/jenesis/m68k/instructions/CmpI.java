@@ -1,29 +1,11 @@
 package com.wmbest.jenesis.m68k.instructions;
 
-public class CMP extends SEAInstruction {
+public class CmpI extends ImmediateInstruction {
 
-    public static CMP getInstruction(int value) {
-        int mode = (value >> 6) & 0x7;
-
-        if ((mode & 0x3) == 0x3) {
-            // return new CmpA();
-        }
-
-        if ((mode >> 2) == 1) {
-            int m = (value >> 3) & 0x7;
-            if (m == 0x1) {
-                //return new CmpM();
-            }
-            //return new Eor();
-        }
-
-        return new CMP();
-    }
-    
     @Override
     public void setup(int value) {
         super.setup(value);
-        name = "CMP";
+        name = "CmpI";
         size = getSize((value >> 6) & 0x7);
         operands[0].size = size;
     }
@@ -42,8 +24,7 @@ public class CMP extends SEAInstruction {
 
     @Override
     public void handle() {
-        int dx = (value >> 9) & 0x7;
-        long val = cpu.getDx(dx) - operands[0].getVal();
+        long val = operands[0].getVal() - data;
         if (val < 0) {
             cpu.setN(true);
             cpu.setV(cpu.C() ^ true);
@@ -55,7 +36,6 @@ public class CMP extends SEAInstruction {
 
     @Override
     public String disassemble() {
-        int dx = (value >> 9) & 0x7;
-        return "CMP" + SIZE_ABBVR[size] + "\t" + operands[0].toString() + ", D" + dx;
+        return "CMPI" + SIZE_ABBVR[size] + "\t#" + data + ", " + operands[0].toString();
     }
 }

@@ -10,6 +10,8 @@ public class AddQ extends QuickAndBranchInstruction {
         name = "ADDQ";
         size = getSize();
 
+        operands[0].disable = false;
+
         for( int i = 0; i < operands.length; ++i) {
             if (operands[i] != null) {
                 operands[i].size = size;
@@ -32,5 +34,10 @@ public class AddQ extends QuickAndBranchInstruction {
     @Override
     public void handle() {
         operands[0].setVal(operands[0].getVal() + operands[1].reg);
+    }
+
+    @Override
+    public String disassemble() {
+        return "ADDQ" + SIZE_ABBVR[size] + "\t#" + operands[1].reg + ", " + operands[0].toString();
     }
 }

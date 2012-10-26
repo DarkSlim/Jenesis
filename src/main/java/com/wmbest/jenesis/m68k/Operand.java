@@ -70,7 +70,22 @@ public class Operand {
             case 6:
                 return "MODE SIX";
             case 7:
-                return "MODE SEVEN";
+                switch(reg) {
+                    case 0:
+                        return "(0x" + Long.toHexString(lowerWord) + ")";
+                    case 1:
+                        long val = ((long)upperWord << 16) + lowerWord;
+                        return "(0x" + Long.toHexString(val) + ")";
+                    case 4:
+                        if (size == Instruction.LONG) {
+                            return "$" + ((long)upperWord << 16) + lowerWord + ".L";
+                        } else {
+                            return "$" + lowerWord;
+                        }
+                    default:
+                        return "CASES 1 or 2";
+
+                }
             default:
                 return "INVALID";
         }
@@ -208,43 +223,43 @@ public class Operand {
         return ((((long)immediateWord()) << 16) + immediateWord()) & 0xffffffff;
     }
 
-    private int getIndirectAx(int x) {
+    public int getIndirectAx(int x) {
         return getIndirect((int) cpu.getAx(x));
     }
 
-    private void setIndirectAx(int x, long val) {
+    public void setIndirectAx(int x, long val) {
         setIndirect((int) cpu.getAx(x), val);
     }
 
-    private int getIndirect(int mem) {
+    public int getIndirect(int mem) {
         return cpu.memory.get(mem);
     }
 
-    private int getIndirectLong(int mem) {
+    public long getIndirectLong(int mem) {
         return cpu.memory.getLong(mem);
     }
 
-    private void setIndirect(int mem, long val) {
+    public void setIndirect(int mem, long val) {
         cpu.memory.set(mem, (int) val);
     }
 
-    private void setIndirectLong(int mem, long val) {
+    public void setIndirectLong(int mem, long val) {
         cpu.memory.setLong(mem, val);
     }
 
-    private int getIndirectAxWithOffset(int x, int offset) {
+    public int getIndirectAxWithOffset(int x, int offset) {
         return getIndirect((int) cpu.getAx(x) + offset);
     }
 
-    private void setIndirectAxWithOffset(int x, int offset, long val) {
+    public void setIndirectAxWithOffset(int x, int offset, long val) {
         setIndirect((int) cpu.getAx(x) + offset, val);
     }
 
-    private int getIndirectPCWithOffset(int offset) {
+    public int getIndirectPCWithOffset(int offset) {
         return getIndirect((int) cpu.getPC() + offset);
     }
 
-    private void setIndirectPCWithOffset(int offset, long val) {
+    public void setIndirectPCWithOffset(int offset, long val) {
         setIndirect((int) cpu.getPC() + offset, val);
     }
 

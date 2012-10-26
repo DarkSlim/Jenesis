@@ -2,7 +2,7 @@ package com.wmbest.jenesis.m68k.instructions;
 
 import com.wmbest.jenesis.m68k.*;
 
-public class And extends TwoOpInstruction {
+public class And extends MulAndInstruction {
 
     int size;
 
@@ -17,6 +17,8 @@ public class And extends TwoOpInstruction {
                 operands[i].size = size;
             }
         }
+
+        operands[1].disable = true;
     }
 
     private int getSize() {
@@ -38,6 +40,10 @@ public class And extends TwoOpInstruction {
 
     @Override
     public void handle() {
-
+        if (operands[1].mode > 2) {
+            cpu.setDx(operands[1].reg, cpu.getDx(operands[1].reg) & operands[0].getVal());
+        } else {
+            operands[0].setVal(operands[0].getVal() & cpu.getDx(operands[1].reg));
+        }
     }
 }

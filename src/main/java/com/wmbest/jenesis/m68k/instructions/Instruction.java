@@ -23,6 +23,7 @@ public abstract class Instruction {
     public static final int L_SCALE = 4;
 
     public static final String[] SIZE_STRING = new String[] {"INVALID", "BYTE", "LONG", "WORD"};
+    public static final String[] SIZE_ABBVR = new String[] {"INVALID", ".B", ".L", ".W"};
     
     protected abstract void handle();
     public String disassemble() {
@@ -57,6 +58,13 @@ public abstract class Instruction {
 
     public void setup(int value) {
         this.value = value;
+
+        name = this.getClass().getName();
+        if (name.lastIndexOf('.') > 0) {
+            name = name.substring(name.lastIndexOf('.')+1);
+        }
+        // The $ can be converted to a .
+        name = name.replace('$', '.');
     }
 
     public static int sizeToByte(int size) {
@@ -113,9 +121,24 @@ public abstract class Instruction {
             case 7:
                 result = QuickAndBranchInstruction.getInstruction(value);
                 break;
-            case 13:
-                result = new Add();
+            case 8:
+                result = DivOrInstruction.getInstruction(value);
                 break;
+            //case 9:
+                //result = Sub.getInstruction(value);
+                //break;
+            case 0xb:
+                result = CMP.getInstruction(value);
+                break;
+            case 0xc:
+                result = MulAndInstruction.getInstruction(value);
+                break;
+            //case 0xd:
+                //result = Add.getInstruction(value);
+                //break;
+            //case 0xe:
+                //result = RotateShiftInstruction.getInstruction(value);
+                //break;
             default:
                 throw new UnsupportedOpcodeException(value);
         }

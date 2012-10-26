@@ -60,6 +60,6 @@ public abstract class SEAInstruction extends Instruction {
     }
 
     public String disassemble() {
-        return name + "\t" + operands[0].toString();
+        return name.toUpperCase() + "\t" + ((operands[0].disable) ? "" : operands[0].toString());
     }
 }

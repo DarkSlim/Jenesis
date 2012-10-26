@@ -29,9 +29,17 @@ public abstract class QuickAndBranchInstruction extends TwoOpInstruction {
                 return new Bcc();
             }
         } else if (first == 7) {
-            /** \todo MOVEQ */
+            return new MoveQ();
         }
 
         throw new UnsupportedOpcodeException(value);
+    }
+
+    @Override
+    public void preHandle() {
+        super.preHandle();
+
+        operands[0].disable = true;
+        operands[1].disable = true;
     }
 }

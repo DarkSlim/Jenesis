@@ -31,6 +31,6 @@ public class Bra extends QuickAndBranchInstruction {
 
     @Override
     public String disassemble() {
-        return name + "$" + Long.toHexString(cpu.getPC() + displacement);
+        return name + "\t$" + Long.toHexString(cpu.getPC() + displacement);
     }
 }

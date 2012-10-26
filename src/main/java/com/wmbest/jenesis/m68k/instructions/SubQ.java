@@ -10,6 +10,8 @@ public class SubQ extends QuickAndBranchInstruction {
         name = "SUBQ";
         size = getSize();
 
+        operands[0].disable = false;
+
         for( int i = 0; i < operands.length; ++i) {
             if (operands[i] != null) {
                 operands[i].size = size;

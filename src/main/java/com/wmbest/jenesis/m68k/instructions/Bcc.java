@@ -28,7 +28,7 @@ public class Bcc extends QuickAndBranchInstruction {
     @Override
     public void handle() {
         if (conditionCheck()) {
-            cpu.setPC(cpu.getPC() + displacement);
+            cpu.setPC(cpu.getPC() + displacement - 2);
         }
     }
 
@@ -68,7 +68,7 @@ public class Bcc extends QuickAndBranchInstruction {
 
     @Override
     public String disassemble() {
-        name = "Bcc";
+        name = "BCC";
         switch (condition) {
             case 2:
                 name = "BHI";

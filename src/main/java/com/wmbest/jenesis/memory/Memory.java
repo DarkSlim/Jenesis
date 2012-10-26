@@ -52,8 +52,16 @@ public class Memory {
         }
     }
 
+    public synchronized int getWord(long index) {
+        return getWord((int) index);
+    }
+
     public synchronized int getWord(int index) {
         return (int) buffer.getChar(index);
+    }
+
+    public synchronized void setWord(long index, int val) {
+        setWord((int) index, val);
     }
 
     public synchronized void setWord(int index, int val) {
@@ -65,8 +73,16 @@ public class Memory {
         }
     }
 
-    public synchronized int getLong(int index) {
-        return (int) buffer.getChar(index);
+    public synchronized long getLong(long index) {
+        return getLong((int) index);
+    }
+
+    public synchronized long getLong(int index) {
+        return (long) buffer.getInt(index);
+    }
+
+    public synchronized void setLong(long index, long val) {
+        setLong((int) index, val);
     }
 
     public synchronized void setLong(int index, long val) {

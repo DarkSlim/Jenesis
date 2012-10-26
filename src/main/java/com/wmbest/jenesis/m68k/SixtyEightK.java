@@ -25,7 +25,7 @@ public class SixtyEightK {
     private long mSSP;
     private long mUSP;
 
-    private Boolean isSupervisor = new Boolean(false);
+    public Boolean isSupervisor = new Boolean(false);
 
     private int mSR;
 
@@ -34,7 +34,7 @@ public class SixtyEightK {
     private SixtyEightKListener mListener;
 
     private volatile Thread mBackgroundThread;
-    private Boolean breakPoint = new Boolean(false);
+    public Boolean breakPoint = new Boolean(false);
 
     public SixtyEightK(Memory aMem) {
         memory = aMem;
@@ -62,7 +62,7 @@ public class SixtyEightK {
     public void run() {
         mBackgroundThread = new Thread() {
             public void run() {
-                while (memory.get((int)getPC()) != 0) {
+                while (true) {
                     synchronized(mBackgroundThread) {
                         if (breakPoint) {
                             try {
@@ -100,7 +100,7 @@ public class SixtyEightK {
 
     public void stop() {
         synchronized(mBackgroundThread) {
-            breakPoint = false;
+            breakPoint = true;
         }
     }
 
@@ -163,6 +163,9 @@ public class SixtyEightK {
         }
     }
     
+    public void setUSP(final long aUSP) {
+        mUSP = aUSP;
+    }
 
     public long getDx(long x) {
         return mDRegisters[(int) x];
@@ -187,12 +190,20 @@ public class SixtyEightK {
         mARegisters[(int) x] = val;
     }
 
+    public int getSR() {
+        return mSR;
+    }
+
+    public void setSR(int aSR) {
+        mSR = (aSR & 0xffff);
+    }
+
     public int getCCR() {
         return (int)(mSR & 0x1f);
     }
 
     public void setCCR(int val) {
-        mSR = (mSR & 0xffe) & (val & 0x1f);
+        mSR = (mSR & 0xffe0) & (val & 0x1f);
     }
 
     public boolean C() {
@@ -328,7 +339,7 @@ public class SixtyEightK {
         for (int i = 0; i < 7; ++i) {
             builder.append("0x" + Long.toHexString(mARegisters[i]));
 
-            if (i != 7) 
+            if (i != 6) 
                 builder.append(",");
         }
         builder.append(")\n");

@@ -9,28 +9,28 @@ public abstract class SystemInstruction extends SEAInstruction {
         // 16 bit constant value functions
         switch(value) {
             case 0x4AFC:
-                /** \todo ILLEGAL */
+                return new Illegal();
             case 0x4E70:
-                /** \todo RESET */
+                return new Reset(); 
             case 0x4E71:
                 return new Nop();
             case 0x4E72:
-                /** \todo STOP */
+                return new Stop();
             case 0x4E73:
-                /** \todo RTE */
+                return new Rte();
             case 0x4E75:
-                /** \todo RTS  */
+                return new Rts();
             case 0x4E76:
-                /** \todo TRAPV  */
+                return new Trapv();
             case 0x4E77:
-                /** \todo RTR */
+                return new Rtr();
         }
 
         int secondAndThird = (value & 0x0ff0) >> 4;
         // 12 bit constant functions
         switch (secondAndThird) {
             case 0xE4:
-                /** \todo TRAP */
+                return new Trap(); 
             case 0xE5:
                 /** \todo LINK (ea MODE 0b010) */
                 /** \todo UNLK (ea MODE 0b011) */
@@ -72,9 +72,15 @@ public abstract class SystemInstruction extends SEAInstruction {
         if (op == 0x7) {
             return new Lea();
         } else if (op == 0x6) {
-            /** \todo CHK */
+            return new Chk();
         }
 
         throw new UnsupportedOpcodeException(value);
+    }
+
+    @Override
+    public void setup(int value) {
+        super.setup(value);
+        operands[0].disable = true;
     }
 }

@@ -9,12 +9,25 @@ public class Tst extends SystemInstruction {
     public void setup(int value) {
         super.setup(value);
 
-        size = (value >> 6) & 0xff;
+        int s = (value >> 6) & 0xff;
 
         if (size < 3) {
             name = "TST";
         } else {
             name = "TAS";
+        }
+    }
+
+    public int getSize(int s) {
+        switch(s) {
+            case 1:
+                return BYTE;
+            case 2:
+                return WORD;
+            case 3:
+                return LONG;
+            default:
+                return -1;
         }
     }
 
@@ -41,7 +54,7 @@ public class Tst extends SystemInstruction {
         cpu.setZ(operands[0].getVal() == 0);
 
         if (size == 0x3) {
-            operands[0].setVal(operands[0].getVal() | CHECK_NEG);
+            operands[0].setVal(operands[0].getVal() | mask);
         }
     }
 }
